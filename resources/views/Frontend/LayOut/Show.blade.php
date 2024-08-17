@@ -20,12 +20,6 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Email:</strong>
-                {{ $pengguna->email }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
                 <strong>Nomor Telepon:</strong>
                 {{ $pengguna->nomor_telepon }}
             </div>

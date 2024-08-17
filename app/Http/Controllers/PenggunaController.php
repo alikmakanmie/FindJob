@@ -32,8 +32,6 @@ class PenggunaController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'email' => 'required|email|unique:penggunas,email',
-            'password' => 'required|min:6',
             'nomor_telepon' => 'nullable|numeric',
             'alamat' => 'nullable',
             'tanggal_lahir' => 'nullable|date',
@@ -69,8 +67,6 @@ class PenggunaController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'email' => 'required|email|unique:penggunas,email,' . $pengguna->id,
-            // 'password' => 'required|min:6',
             'nomor_telepon' => 'nullable|numeric',
             'alamat' => 'nullable',
             'tanggal_lahir' => 'nullable|date',

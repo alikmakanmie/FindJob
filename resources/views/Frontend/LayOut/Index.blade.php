@@ -22,7 +22,6 @@
         <tr>
             <th>No</th>
             <th>Nama</th>
-            <th>Email</th>
             <th>Nomor Telepon</th>
             <th0px">Aksi</th>
         </tr>
@@ -30,7 +29,6 @@
         <tr>
             <td>{{ ++$i }}</td>
             <td>{{ $pengguna->nama }}</td>
-            <td>{{ $pengguna->email }}</td>
             <td>{{ $pengguna->nomor_telepon }}</td>
             <td>
                 <form action="{{ route('penggunas.destroy',$pengguna->id) }}" method="POST">

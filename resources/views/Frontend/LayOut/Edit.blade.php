@@ -34,12 +34,7 @@
                     <input type="text" name="nama" value="{{ $pengguna->nama }}" class="form-control" placeholder="Nama">
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Email:</strong>
-                    <input type="email" name="email" value="{{ $pengguna->email }}" class="form-control" placeholder="Email">
-                </div>
-            </div>
+            
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Nomor Telepon:</strong>

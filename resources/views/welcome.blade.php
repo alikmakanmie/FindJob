@@ -86,7 +86,7 @@
                     <i class="fa fa-user" aria-hidden="true"></i> Profil
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Lihat Profil</a>
+                    <a class="dropdown-item" href="{{ route('penggunas.index') }}">Lihat Profil</a>
                     <div class="dropdown-divider"></div>
                     <form action="{{ route('logout') }}" method="POST">
                       @csrf
@@ -108,7 +108,7 @@
     <!-- end header section -->
     <!-- slider section -->
     <section class="slider_section ">
-      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+     
         <div class="carousel-inner">
           <div class="carousel-item active">
             <div class="container ">
@@ -193,11 +193,8 @@
           </div>
         </div>
         <ol class="carousel-indicators">
-          <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
-          <li data-target="#customCarousel1" data-slide-to="1"></li>
-          <li data-target="#customCarousel1" data-slide-to="2"></li>
-        </ol>
-      </div>
+          
+      
 
     </section>
     <!-- end slider section -->

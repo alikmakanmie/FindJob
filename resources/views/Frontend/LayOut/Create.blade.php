@@ -18,16 +18,7 @@
                             <label for="nama" class="form-label">Nama</label>
                             <input type="text" name="nama" id="nama" class="form-control" placeholder="Masukkan nama" required>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Masukkan email" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan password" required>
-                        </div>
+
                         
                         <div class="mb-3">
                             <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
