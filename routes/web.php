@@ -18,8 +18,10 @@ Route::middleware(['auth'])->group(function () {
 
 // View
 Route::get('/', function () {
-    return view('welcome');
+    return view('Frontend.LayOut.Halaman.index');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/userprofile', [App\Http\Controllers\FrontendController::class, 'userProfile'])->name('userprofile');
+
 
