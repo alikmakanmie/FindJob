@@ -68,3 +68,13 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        @if (session('status') == 'logged_in')
+            window.location.href = "{{ url('/') }}";
+        @endif
+    });
+</script>
+@endpush

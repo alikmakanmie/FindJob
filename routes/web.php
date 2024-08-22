@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PenggunaController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+
 
 
 // Crud dasar
@@ -24,4 +27,11 @@ Route::get('/', function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/userprofile', [App\Http\Controllers\FrontendController::class, 'userProfile'])->name('userprofile');
 
+// ... rute yang sudah ada ...
 
+Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+
+
+Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');

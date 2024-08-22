@@ -40,7 +40,7 @@ class PenggunaController extends Controller
     
         Pengguna::create($request->all());
      
-        return redirect()->route('penggunas.index')
+        return redirect()->route('user.dashboard')
                         ->with('success','Pengguna berhasil dibuat.');
     }
 

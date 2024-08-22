@@ -13,14 +13,19 @@ return new class extends Migration
     {
         Schema::create('penggunas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->unsignedBigInteger('user_id'); // Added user_id column
+            $table->string('nama_lengkap');
             $table->string('nomor_telepon')->nullable();
             $table->text('alamat')->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->nullable();
+            $table->string('foto')->nullable();
+            $table->string('foto_ktp')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
