@@ -31,7 +31,7 @@
 
                     <div class="row mb-0">
                         <div class="col-md-6 offset-md-4">
-                            <a href="#" class="btn btn-primary">Edit Profil</a>
+                            <a href="#" class="btn btn-primary">Lengkapi Profil       </a>
                         </div>
                     </div>
                 </div>
