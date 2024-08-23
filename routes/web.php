@@ -5,11 +5,13 @@ use App\Http\Controllers\PenggunaController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PerusahaanController;
 
 
 
 // Crud dasar
 Route::resource('penggunas', PenggunaController::class);
+Route::resource('perusahaan', PerusahaanController::class);
 
 // login
 Auth::routes();
@@ -35,3 +37,4 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('adm
 
 
 Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
+Route::get('/admin/store', [PerusahaanController::class, 'index'])->name('admin.store');

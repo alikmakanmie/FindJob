@@ -40,11 +40,5 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
-    protected function authenticated(Request $request, $user)
-{
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard'); // Redirect ke dashboard admin
-    }
-    return redirect()->route('user.dashboard'); // Redirect ke dashboard user
-}
+    // Metode authenticated telah dihapus
 }

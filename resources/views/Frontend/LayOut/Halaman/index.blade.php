@@ -104,77 +104,47 @@
       <div class="container ">
         <div class="heading_container heading_center">
           <h2>
-            Our <span>Services</span>
+            Daftar <span>Perusahaan</span>
           </h2>
           <p>
-            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
+            Berikut adalah daftar perusahaan yang terdaftar dalam sistem kami
           </p>
-        </div>
+            
+        </div>  
         <div class="row">
-          <div class="col-md-4 ">
-            <div class="box ">
-              <div class="img-box">
-                <img src="{{ asset('/assets/images/s1.png') }}" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Currency Wallet
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable content of a page when looking at its layout.
-                  The
-                  point of using
-                </p>
-                <a href="">
-                  Read More
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ">
-            <div class="box ">
-              <div class="img-box">
-                <img src="{{ asset('/assets/images/s2.png') }}" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Security Storage
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable content of a page when looking at its layout.
-                  The
-                  point of using
-                </p>
-                <a href="">
-                  Read More
-                </a>
+          @if(isset($perusahaan) && count($perusahaan) > 0)
+            @foreach($perusahaan as $p)
+            <div class="col-md-4 mb-4">
+              <div class="box">
+                <div class="detail-box">
+                  <h5>
+                    {{ $p->nama }}
+                  </h5>
+                  <p>
+                    <strong>Alamat:</strong> {{ $p->alamat }}
+                  </p>
+                  <p>
+                    <strong>Telepon:</strong> {{ $p->telepon }}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {{ $p->email }}
+                  </p>
+                  <a href="{{ route('perusahaan.show', $p->id) }}">
+                    Lihat Detail
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-4 ">
-            <div class="box ">
-              <div class="img-box">
-                <img src="{{ asset('/assets/images/s3.png') }}" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Expert Support
-                </h5>
-                <p>
-                  fact that a reader will be distracted by the readable content of a page when looking at its layout.
-                  The
-                  point of using
-                </p>
-                <a href="">
-                  Read More
-                </a>
-              </div>
+            @endforeach
+          @else
+            <div class="col-12 text-center">
+              <p>Belum ada data perusahaan yang tersedia.</p>
             </div>
-          </div>
+          @endif
         </div>
-        <div class="btn-box">
-          <a href="">
-            View All
+        <div class="btn-box text-center mt-4">
+          <a href="{{ route('perusahaan.index') }}" class="btn btn-primary">
+            Lihat Semua Perusahaan
           </a>
         </div>
       </div>

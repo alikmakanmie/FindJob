@@ -91,6 +91,20 @@
                         </div>
 
                         <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">Foto</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" name="foto" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end">Foto KTP</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" name="foto_ktp" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <label class="col-md-4 col-form-label text-md-end">Jenis Kelamin</label>
                             <div class="col-md-6">
                                 <select class="form-control" name="jenis_kelamin">

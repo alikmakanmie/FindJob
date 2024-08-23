@@ -1,4 +1,4 @@
-@extends('Frontend.LayOut.Halaman.welcome')
+<!-- @extends('Frontend.LayOut.Halaman.welcome')
 
 @section('content')
 
@@ -665,4 +665,4 @@
   </section>
   <!-- footer section -->
 
-@endsection
+@endsection -->

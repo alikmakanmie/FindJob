@@ -87,7 +87,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ route('userprofile') }}">Lihat Profil</a>
                 @if(Auth::user()->role == 'admin')
-                  <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Tambah Data</a>
+                  <a class="dropdown-item" href="{{ route('perusahaan.create') }}">Tambah Data</a>
                                @endif
                 <div class="dropdown-divider"></div>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">

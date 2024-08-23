@@ -1,4 +1,4 @@
-<?php
+4ESXTX I<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

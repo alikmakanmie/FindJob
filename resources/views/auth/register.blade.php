@@ -79,16 +79,4 @@
 </div>
 @endsection
 
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        @if (session('status') == 'registered')
-            @if (Auth::user()->role == 'admin')
-                window.location.href = "{{ route('admin.dashboard') }}";
-            @else
-                window.location.href = "{{ route('userprofile') }}";
-            @endif
-        @endif
-    });
-</script>
-@endpush
+
