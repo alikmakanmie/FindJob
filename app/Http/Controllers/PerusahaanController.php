@@ -47,7 +47,7 @@ class PerusahaanController extends Controller
      */
     public function show(Perusahaan $perusahaan)
     {
-        return view('perusahaan.show', compact('perusahaan'));
+        return view('Frontend.LayOut.Halaman.lihatdetail', compact('perusahaan'));
     }
 
     /**

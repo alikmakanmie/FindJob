@@ -8,7 +8,7 @@
                 <div class="card-header">Input Data Perusahaan</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('perusahaan.store') }}">
+                    <form method="POST" action="{{ route('perusahaan.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-3">
@@ -36,6 +36,55 @@
                             <label for="email" class="col-md-4 col-form-label text-md-end">Email</label>
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="deskripsi" class="col-md-4 col-form-label text-md-end">Deskripsi</label>
+                            <div class="col-md-6">
+                                <textarea id="deskripsi" class="form-control" name="deskripsi" rows="4" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="foto" class="col-md-4 col-form-label text-md-end">Foto Perusahaan</label>
+                            <div class="col-md-6">
+                                <input id="foto" type="file" class="form-control" name="foto" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="deskripsi1" class="col-md-4 col-form-label text-md-end">Deskripsi Tambahan 1</label>
+                            <div class="col-md-6">
+                                <textarea id="deskripsi1" class="form-control" name="deskripsi1" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="deskripsi2" class="col-md-4 col-form-label text-md-end">Deskripsi Tambahan 2</label>
+                            <div class="col-md-6">
+                                <textarea id="deskripsi2" class="form-control" name="deskripsi2" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="deskripsi3" class="col-md-4 col-form-label text-md-end">Deskripsi Tambahan 3</label>
+                            <div class="col-md-6">
+                                <textarea id="deskripsi3" class="form-control" name="deskripsi3" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="foto1" class="col-md-4 col-form-label text-md-end">Foto Tambahan 1</label>
+                            <div class="col-md-6">
+                                <input id="foto1" type="file" class="form-control" name="foto1">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="foto2" class="col-md-4 col-form-label text-md-end">Foto Tambahan 2</label>
+                            <div class="col-md-6">
+                                <input id="foto2" type="file" class="form-control" name="foto2">
                             </div>
                         </div>
 

@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('telepon');
             $table->string('email');
+            $table->text('deskripsi');
+            $table->text('deskripsi1')->nullable();
+            $table->text('deskripsi2')->nullable();
+            $table->text('deskripsi3')->nullable();
+            $table->text('foto');
+            $table->text('foto1')->nullable();
+            $table->text('foto2')->nullable();
             $table->timestamps();
         });
     }
