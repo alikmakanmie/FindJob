@@ -36,9 +36,21 @@ class PenggunaController extends Controller
             'alamat' => 'nullable',
             'tanggal_lahir' => 'nullable|date',
             'jenis_kelamin' => 'nullable|in:laki-laki,perempuan',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'deskripsi' => 'nullable|string',
+            'email' => 'required|email|unique:pengguna,email',
         ]);
     
-        Pengguna::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $fotoName = time() . '_' . $foto->getClientOriginalName();
+            $foto->move(public_path('images'), $fotoName);
+            $data['foto'] = 'images/' . $fotoName;
+        }
+    
+        Pengguna::create($data);
      
         return redirect()->route('user.dashboard')
                         ->with('success','Pengguna berhasil dibuat.');

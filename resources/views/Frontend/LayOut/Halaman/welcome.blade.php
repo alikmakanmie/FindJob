@@ -87,7 +87,13 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ route('userprofile') }}">Lihat Profil</a>
                 @if(Auth::user()->role == 'admin')
+                  <a class="dropdown-item" href="{{ route('admin.akun') }}">Daftar Akun Pengguna</a>
+                @endif
+                @if(Auth::user()->role == 'admin')
                   <a class="dropdown-item" href="{{ route('perusahaan.create') }}">Tambah Data</a>
+                               @endif
+                               @if(Auth::user()->role == 'admin')
+                                 <a class="dropdown-item" href="{{ route('admin.store') }}">Lihat Data Perusahaan</a>
                                @endif
                 <div class="dropdown-divider"></div>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -96,6 +102,23 @@
                 </form>
               </div>
             </li>
+          @endauth
+          @auth
+            @if(Auth::user()->role == 'admin')
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-bell"></i>
+                  <span class="badge badge-danger">3</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
+                  <a class="dropdown-item" href="#">Notifikasi 1</a>
+                  <a class="dropdown-item" href="#">Notifikasi 2</a>
+                  <a class="dropdown-item" href="#">Notifikasi 3</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Lihat Semua Notifikasi</a>
+                </div>
+              </li>
+            @endif
           @endauth
           <form class="form-inline">
             <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">

@@ -45,20 +45,7 @@
                             <label for="password-confirm" class="form-label">Konfirmasi Kata Sandi</label>
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                         </div>
-                        <div class="mb-3">
-                            <label for="role" class="form-label">Peran</label>
-                            <select id="role" class="form-control @error('role') is-invalid @enderror" name="role" required>
-                                <option value="">Pilih Peran</option>
-                                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Pengguna</option>
-                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                            </select>
-                            @error('role')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
+                        
                         <div class="mb-0">
                             <button type="submit" class="btn btn-primary">
                                 Daftar

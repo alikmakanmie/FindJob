@@ -109,19 +109,25 @@
           <p>
             Berikut adalah daftar perusahaan yang terdaftar dalam sistem kami
           </p>
-            
         </div>  
         <div class="row">
           @if(isset($perusahaan) && count($perusahaan) > 0)
             @foreach($perusahaan as $p)
             <div class="col-md-4 mb-4">
               <div class="box">
+                <div class="img-box">
+                  @if($p->foto)
+                    <img src="{{ asset('storage/'.$p->foto) }}" alt="{{ $p->nama }}" class="img-fluid">
+                  @else
+                    <img src="{{ asset('images/default-company.png') }}" alt="Default Company Image" class="img-fluid">
+                  @endif
+                </div>
                 <div class="detail-box">
                   <h5>
                     {{ $p->nama }}
                   </h5>
                   <p>
-                    <strong>Alamat:</strong> {{ $p->alamat }}
+                    <strong>Alamat:</strong> {{ Str::limit($p->alamat, 50) }}
                   </p>
                   <p>
                     <strong>Telepon:</strong> {{ $p->telepon }}
@@ -129,7 +135,10 @@
                   <p>
                     <strong>Email:</strong> {{ $p->email }}
                   </p>
-                  <a href="{{ route('perusahaan.show', $p->id) }}">
+                  <p>
+                    <strong>Deskripsi:</strong> {{ Str::limit($p->deskripsi, 100) }}
+                  </p>
+                  <a href="{{ route('perusahaan.show', $p->id) }}" class="btn btn-outline-primary btn-sm">
                     Lihat Detail
                   </a>
                 </div>
@@ -142,11 +151,15 @@
             </div>
           @endif
         </div>
-        <div class="btn-box text-center mt-4">
-          <a href="{{ route('perusahaan.index') }}" class="btn btn-primary">
-            Lihat Semua Perusahaan
-          </a>
-        </div>
+        @auth
+          @if(Auth::user()->role == 'admin')
+          <div class="btn-box text-center mt-4">
+            <a href="{{ route('perusahaan.index') }}" class="btn btn-primary">
+              Lihat Semua Perusahaan
+            </a>
+          </div>
+          @endif
+        @endauth
       </div>
     </div>
   </section>

@@ -48,4 +48,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(Pengguna::class);
     }
+
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        // Asumsikan ada kolom 'is_admin' di tabel users yang menandakan apakah user adalah admin
+        return $this->is_admin;
+    }
 }

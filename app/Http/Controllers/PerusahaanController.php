@@ -13,7 +13,7 @@ class PerusahaanController extends Controller
     public function index()
     {
     $perusahaan = Perusahaan::all(); // atau query lain sesuai kebutuhan
-    return view('Frontend.LayOut.Halaman.index', compact('perusahaan'));
+    return view('admin.store', compact('perusahaan'));
     }
 
     /**
@@ -33,8 +33,40 @@ class PerusahaanController extends Controller
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string',
             'telepon' => 'required|string|max:15',
-            'email' => 'required|email|unique:perusahaan,email'
+            'email' => 'required|email|unique:perusahaan,email',
+            'deskripsi' => 'required|string',
+            'deskripsi1' => 'nullable|string',
+            'deskripsi2' => 'nullable|string', 
+            'deskripsi3' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        $data = $request->all();
+
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $fotoName = time() . '_' . $foto->getClientOriginalName();
+            $foto->move(public_path('images'), $fotoName);
+            $data['foto'] = 'images/' . $fotoName;
+        }
+
+        if ($request->hasFile('foto1')) {
+            $foto1 = $request->file('foto1');
+            $foto1Name = time() . '_' . $foto1->getClientOriginalName();
+            $foto1->move(public_path('images'), $foto1Name);
+            $data['foto1'] = 'images/' . $foto1Name;
+        }
+
+        if ($request->hasFile('foto2')) {
+            $foto2 = $request->file('foto2');
+            $foto2Name = time() . '_' . $foto2->getClientOriginalName();
+            $foto2->move(public_path('images'), $foto2Name);
+            $data['foto2'] = 'images/' . $foto2Name;
+        }
+
+        Perusahaan::create($data);
 
         Perusahaan::create($request->all());
 
@@ -64,11 +96,41 @@ class PerusahaanController extends Controller
     public function update(Request $request, Perusahaan $perusahaan)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'telepon' => 'required|string|max:15',
-            'email' => 'required|email|unique:perusahaan,email,' . $perusahaan->id
+            'nama' => 'required',
+            'alamat' => 'required',
+            'telepon' => 'required',
+            'email' => 'required|email|unique:perusahaan,email,' . $perusahaan->id,
+            'deskripsi' => 'required',
+            'deskripsi1' => 'nullable',
+            'deskripsi2' => 'nullable',
+            'deskripsi3' => 'nullable',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto1' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto2' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        $data = $request->all();
+
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $fotoName = time() . '_' . $foto->getClientOriginalName();
+            $foto->move(public_path('images'), $fotoName);
+            $data['foto'] = 'images/' . $fotoName;
+        }
+
+        if ($request->hasFile('foto1')) {
+            $foto1 = $request->file('foto1');
+            $foto1Name = time() . '_' . $foto1->getClientOriginalName();
+            $foto1->move(public_path('images'), $foto1Name);
+            $data['foto1'] = 'images/' . $foto1Name;
+        }
+
+        if ($request->hasFile('foto2')) {
+            $foto2 = $request->file('foto2');
+            $foto2Name = time() . '_' . $foto2->getClientOriginalName();
+            $foto2->move(public_path('images'), $foto2Name);
+            $data['foto2'] = 'images/' . $foto2Name;
+        }
 
         $perusahaan->update($request->all());
 

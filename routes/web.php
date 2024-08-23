@@ -38,3 +38,5 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('adm
 
 Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
 Route::get('/admin/store', [PerusahaanController::class, 'index'])->name('admin.store');
+
+Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
