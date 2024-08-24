@@ -85,7 +85,9 @@
                 <i class="fa fa-user" aria-hidden="true"></i> Profil ({{ Auth::user()->role }})
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('userprofile') }}">Lihat Profil</a>
+                @if(Auth::user()->role != 'admin')
+                  <a class="dropdown-item" href="{{ route('userprofile') }}">Lihat Profil</a>
+                @endif
                 @if(Auth::user()->role == 'admin')
                   <a class="dropdown-item" href="{{ route('admin.akun') }}">Daftar Akun Pengguna</a>
                 @endif
@@ -104,21 +106,26 @@
             </li>
           @endauth
           @auth
-            @if(Auth::user()->role == 'admin')
-              <li class="nav-item">
-                <a class="nav-link" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-bell"></i>
-                  <span class="badge badge-danger">3</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
-                  <a class="dropdown-item" href="#">Notifikasi 1</a>
-                  <a class="dropdown-item" href="#">Notifikasi 2</a>
-                  <a class="dropdown-item" href="#">Notifikasi 3</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-bell"></i>
+                <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown" style="max-height: 300px; overflow-y: auto;">
+                @forelse(Auth::user()->notifications->take(10) as $notification)
+                  <a class="dropdown-item {{ $notification->read_at ? '' : 'font-weight-bold' }}" href="{{ route('notifications.show', $notification->id) }}">
+                    {{ Str::limit($notification->data['message'] ?? 'Tidak ada pesan', 50) }}
+                    <small class="text-muted d-block">{{ $notification->created_at->diffForHumans() }}</small>
+                  </a>
+                @empty
+                  <span class="dropdown-item">Tidak ada notifikasi</span>
+                @endforelse
+                @if(Auth::user()->notifications->count() > 10)
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Lihat Semua Notifikasi</a>
-                </div>
-              </li>
-            @endif
+                  <a class="dropdown-item text-center" href="{{ route('notifications.index') }}">Lihat Semua Notifikasi</a>
+                @endif
+              </div>
+            </li>
           @endauth
           <form class="form-inline">
             <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">

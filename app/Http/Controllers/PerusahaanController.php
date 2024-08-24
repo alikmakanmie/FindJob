@@ -148,4 +148,12 @@ class PerusahaanController extends Controller
         return redirect()->route('perusahaan.index')
             ->with('success', 'Perusahaan berhasil dihapus.');
     }
+
+    public function daftar(Request $request)
+    {
+        // Logika untuk memproses pendaftaran perusahaan
+        // ...
+
+        return redirect()->back()->with('success', 'Pendaftaran berhasil');
+    }
 }

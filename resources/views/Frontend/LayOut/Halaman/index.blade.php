@@ -12,17 +12,13 @@
                 <div class="col-md-6 ">
                   <div class="detail-box">
                     <h1>
-                      Crypto <br>
-                      Currency
+                      GetJob<br>
+                      FindJob
                     </h1>
                     <p>
-                      Explicabo esse amet tempora quibusdam laudantium, laborum eaque magnam fugiat hic? Esse dicta aliquid error repudiandae earum suscipit fugiat molestias, veniam, vel architecto veritatis delectus repellat modi impedit sequi.
+                      Apakah Anda sedang mencari pekerjaan impian? GetJob FindJob adalah platform terpercaya untuk menemukan peluang karir terbaik. Kami menyediakan berbagai lowongan pekerjaan dari perusahaan ternama, membantu Anda menemukan pekerjaan yang sesuai dengan keterampilan dan minat Anda. Mulai perjalanan karir Anda bersama kami hari ini!
                     </p>
-                    <div class="btn-box">
-                      <a href="" class="btn1">
-                        Read More
-                      </a>
-                    </div>
+                    
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -97,116 +93,96 @@
   </div>
 
 
-  <!-- service section -->
+  <!-- Pendahuluan -->
 
-  <section class="service_section layout_padding">
-    <div class="service_container">
-      <div class="container ">
-        <div class="heading_container heading_center">
-          <h2>
-            Daftar <span>Perusahaan</span>
-          </h2>
-          <p>
-            Berikut adalah daftar perusahaan yang terdaftar dalam sistem kami
-          </p>
-        </div>  
-        <div class="row">
-          @if(isset($perusahaan) && count($perusahaan) > 0)
-            @foreach($perusahaan as $p)
-            <div class="col-md-4 mb-4">
-              <div class="box">
-                <div class="img-box">
-                  @if($p->foto)
-                    <img src="{{ asset('storage/'.$p->foto) }}" alt="{{ $p->nama }}" class="img-fluid">
-                  @else
-                    <img src="{{ asset('images/default-company.png') }}" alt="Default Company Image" class="img-fluid">
-                  @endif
-                </div>
-                <div class="detail-box">
-                  <h5>
-                    {{ $p->nama }}
-                  </h5>
-                  <p>
-                    <strong>Alamat:</strong> {{ Str::limit($p->alamat, 50) }}
-                  </p>
-                  <p>
-                    <strong>Telepon:</strong> {{ $p->telepon }}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {{ $p->email }}
-                  </p>
-                  <p>
-                    <strong>Deskripsi:</strong> {{ Str::limit($p->deskripsi, 100) }}
-                  </p>
-                  <a href="{{ route('perusahaan.show', $p->id) }}" class="btn btn-outline-primary btn-sm">
-                    Lihat Detail
-                  </a>
-                </div>
-              </div>
-            </div>
-            @endforeach
-          @else
-            <div class="col-12 text-center">
-              <p>Belum ada data perusahaan yang tersedia.</p>
-            </div>
-          @endif
-        </div>
-        @auth
-          @if(Auth::user()->role == 'admin')
-          <div class="btn-box text-center mt-4">
-            <a href="{{ route('perusahaan.index') }}" class="btn btn-primary">
-              Lihat Semua Perusahaan
-            </a>
+  <section class="about_section" style="background-color: white; color: black;">
+    <div class="container">
+      <div class="heading_container heading_center wow fadeInUp" data-wow-delay="0.1s">
+        <h2 style="color: black;">
+          Tentang <span style="color: black;">Kami</span>
+        </h2>
+        <p style="color: black;">
+          GetJob FindJob adalah platform terpercaya yang menghubungkan pencari kerja dengan peluang karir terbaik
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-md-6 wow fadeInLeft" data-wow-delay="0.2s">
+          <div class="img-box">
+            <img src="{{ asset('/assets/images/about-img.png') }}" alt="Tentang GetJob FindJob">
           </div>
-          @endif
-        @endauth
+        </div>
+        <div class="col-md-6 wow fadeInRight" data-wow-delay="0.2s">
+          <div class="detail-box">
+            <h3 style="color: black;">
+              Kami Adalah GetJob FindJob
+            </h3>
+            <p style="color: black;">
+              GetJob FindJob adalah platform inovatif yang menghubungkan pencari kerja dengan perusahaan-perusahaan terkemuka di berbagai industri. Kami berkomitmen untuk membantu Anda menemukan pekerjaan impian dan membantu perusahaan menemukan talenta terbaik.
+            </p>
+            <p style="color: black;">
+              Dengan database lowongan kerja yang luas dan terus diperbarui, kami menyediakan akses ke berbagai peluang karir di berbagai bidang dan tingkat pengalaman. Fitur pencarian canggih kami memungkinkan Anda untuk dengan mudah menemukan pekerjaan yang sesuai dengan keterampilan, minat, dan lokasi yang Anda inginkan.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- end service section -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+  <script>
+    new WOW().init();
+  </script>
+  
+  <!-- Akhir Pendahuluan -->
 
 
   <!-- about section -->
 
-  <section class="about_section layout_padding">
-    <div class="container  ">
+  {{-- <section class="about_section layout_padding" style="background-color: #e6f2ff;">
+    <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          About <span>Us</span>
+          Daftar <span>Perusahaan</span>
         </h2>
         <p>
-          Magni quod blanditiis non minus sed aut voluptatum illum quisquam aspernatur ullam vel beatae rerum ipsum voluptatibus
+          Berikut adalah daftar perusahaan yang telah terdaftar di platform kami
         </p>
       </div>
       <div class="row">
-        <div class="col-md-6 ">
-          <div class="img-box">
-            <img src="{{ asset('/assets/images/about-img.png') }}" alt="">
+        @forelse($perusahaan as $p)
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow">
+            <div class="card-img-top" style="height: 200px; overflow: hidden;">
+              @if($p->foto)
+                <img src="{{ asset('storage/'.$p->foto) }}" alt="{{ $p->nama }}" style="width: 100%; height: 100%; object-fit: cover;">
+              @else
+                <div class="bg-secondary text-white d-flex align-items-center justify-content-center h-100">
+                  <span>Tidak ada foto</span>
+                </div>
+              @endif
+            </div>
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ $p->nama }}</h5>
+              <p class="card-text flex-grow-1">{{ Str::limit($p->deskripsi, 100) }}</p>
+              <a href="{{ route('perusahaan.detail', $p->id) }}" class="btn btn-primary mt-auto">Lihat Detail</a>
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="detail-box">
-            <h3>
-              We Are Finexo
-            </h3>
-            <p>
-              There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
-              in some form, by injected humour, or randomised words which don't look even slightly believable. If you
-              are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in
-              the middle of text. All
-            </p>
-            <p>
-              Molestiae odio earum non qui cumque provident voluptates, repellendus exercitationem, possimus at iste corrupti officiis unde alias eius ducimus reiciendis soluta eveniet. Nobis ullam ab omnis quasi expedita.
-            </p>
-            <a href="">
-              Read More
-            </a>
+        @empty
+        <div class="col-12">
+          <div class="alert alert-info text-center" role="alert">
+            Tidak ada perusahaan yang terdaftar saat ini.
           </div>
         </div>
+        @endforelse
       </div>
+      @if($perusahaan->isNotEmpty())
+      <div class="text-center mt-4">
+        <a href="{{ route('perusahaan.index') }}" class="btn btn-secondary">Lihat Semua Perusahaan</a>
+      </div>
+      @endif
     </div>
-  </section>
+  </section> --}}
 
   <!-- end about section -->
 
@@ -599,11 +575,11 @@
         <div class="col-md-6 col-lg-2 mx-auto info_col">
           <div class="info_link_box">
             <h4>
-              Links
+              Perusahaan
             </h4>
             <div class="info_links">
-              <a class="active" href="index.html">
-                Home
+              <a class="active" href="{{ route('daftar.perusahaan') }}">
+                Daftar Perusahaan
               </a>
               <a class="" href="about.html">
                 About
@@ -616,6 +592,9 @@
               </a>
               <a class="" href="team.html">
                 Team
+              </a>
+              <a class="" href="{{ route('kebijakan.privasi') }}">
+                Kebijakan dan Privasi
               </a>
             </div>
           </div>

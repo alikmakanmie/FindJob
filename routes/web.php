@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\KebijakanDanPrivasiController;
 
 
 
@@ -31,12 +33,9 @@ Route::get('/userprofile', [App\Http\Controllers\FrontendController::class, 'use
 
 // ... rute yang sudah ada ...
 
-Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-
-
 Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
 Route::get('/admin/store', [PerusahaanController::class, 'index'])->name('admin.store');
-
 Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
+Route::get('/kebijakandanprivasi', [KebijakanDanPrivasiController::class, 'index'])->name('kebijakan.privasi');
+Route::get('/daftar/perusahaan', [KebijakanDanPrivasiController::class, 'daftarPerusahaan'])->name('daftar.perusahaan');
+Route::post('/perusahaan/daftar', [PerusahaanController::class, 'daftar'])->name('perusahaan.daftar');

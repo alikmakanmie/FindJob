@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -21,8 +22,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('home');
-    }
+    // public function index()
+    // {
+    //     $perusahaan = Perusahaan::all(); // Atau query yang sesuai
+    //     return view('Frontend.LayOut.Halaman.index', compact('perusahaan'));
+    // }
 }
