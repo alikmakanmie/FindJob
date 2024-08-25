@@ -15,4 +15,12 @@ class AdminController extends Controller
         // Kirim data pengguna ke view
         return view('admin.akun', compact('users'));
     }
+
+    public function upgradeRole(User $user)
+    {
+        $user->role = 'perusahaan';
+        $user->save();
+
+        return redirect()->back()->with('success', 'Peran pengguna berhasil diupgrade ke Perusahaan.');
+    }
 }

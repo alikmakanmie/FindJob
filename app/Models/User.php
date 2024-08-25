@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'no_telepon',
+        'deskripsi_perusahaan',
         'role',
     ];
 
@@ -56,7 +58,26 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        // Asumsikan ada kolom 'is_admin' di tabel users yang menandakan apakah user adalah admin
-        return $this->is_admin;
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if the user is a company.
+     *
+     * @return bool
+     */
+    public function isCompany()
+    {
+        return $this->role === 'perusahaan';
+    }
+
+    /**
+     * Update user role to company.
+     *
+     * @return void
+     */
+    public function updateToCompanyRole()
+    {
+        $this->update(['role' => 'perusahaan']);
     }
 }

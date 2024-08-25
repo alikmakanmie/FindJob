@@ -8,8 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\KebijakanDanPrivasiController;
-
-
+use App\Http\Controllers\NotificationController;
 
 // Crud dasar
 Route::resource('penggunas', PenggunaController::class);
@@ -39,3 +38,14 @@ Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun')
 Route::get('/kebijakandanprivasi', [KebijakanDanPrivasiController::class, 'index'])->name('kebijakan.privasi');
 Route::get('/daftar/perusahaan', [KebijakanDanPrivasiController::class, 'daftarPerusahaan'])->name('daftar.perusahaan');
 Route::post('/perusahaan/daftar', [PerusahaanController::class, 'daftar'])->name('perusahaan.daftar');
+
+// Rute untuk notifikasi
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
+// Rute untuk upgrade role
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::put('/admin/upgrade-role/{user}', [AdminController::class, 'upgradeRole'])->name('admin.upgradeRole');
+});

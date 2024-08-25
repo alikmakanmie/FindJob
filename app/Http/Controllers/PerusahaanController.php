@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Perusahaan;
+use App\Notifications\NewCompanyRegistration;
+use App\Models\User;
 
 class PerusahaanController extends Controller
 {
@@ -151,8 +153,20 @@ class PerusahaanController extends Controller
 
     public function daftar(Request $request)
     {
-        // Logika untuk memproses pendaftaran perusahaan
-        // ...
+        // Validasi dan simpan data perusahaan
+        $company = Perusahaan::create($request->all());
+
+        // Kirim notifikasi ke admin
+        $admin = User::where('role', 'admin')->first();
+        if ($admin) {
+            $admin->notifications()->create([
+                'type' => NewCompanyRegistration::class,
+                'data' => [
+                    'company_id' => $company->id,
+                    'company_name' => $company->name,
+                ],
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Pendaftaran berhasil');
     }

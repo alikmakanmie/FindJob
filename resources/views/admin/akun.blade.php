@@ -15,6 +15,7 @@
                                 <th>Email</th>
                                 <th>Peran</th>
                                 <th>Tanggal Daftar</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -22,8 +23,27 @@
                             <tr>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ ucfirst($user->role) }}</td>
+                                <td>
+                                    @if($user->role == 'admin')
+                                        Admin
+                                    @elseif($user->role == 'user')
+                                        Pengguna
+                                    @elseif($user->role == 'perusahaan')
+                                        Perusahaan
+                                    @else
+                                        {{ ucfirst($user->role) }}
+                                    @endif
+                                </td>
                                 <td>{{ $user->created_at->format('d-m-Y H:i') }}</td>
+                                <td>
+                                    @if($user->role == 'user')
+                                    <form action="{{ route('admin.upgradeRole', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-sm btn-primary">Upgrade ke Perusahaan</button>
+                                    </form>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

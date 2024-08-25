@@ -93,10 +93,14 @@
                 @endif
                 @if(Auth::user()->role == 'admin')
                   <a class="dropdown-item" href="{{ route('perusahaan.create') }}">Tambah Data</a>
-                               @endif
-                               @if(Auth::user()->role == 'admin')
-                                 <a class="dropdown-item" href="{{ route('admin.store') }}">Lihat Data Perusahaan</a>
-                               @endif
+                @endif
+                @if(Auth::user()->role == 'admin')
+                  <a class="dropdown-item" href="{{ route('admin.store') }}">Lihat Data Perusahaan</a>
+                @endif
+                @if(Auth::user()->role == 'perusahaan')
+                  <a class="dropdown-item" href="{{ route('perusahaan.create') }}">Tambah Data Perusahaan</a>
+                  <a class="dropdown-item" href="{{ route('perusahaan.index') }}">Lihat Data Perusahaan</a>
+                @endif
                 <div class="dropdown-divider"></div>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                   @csrf
@@ -112,15 +116,18 @@
                 <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown" style="max-height: 300px; overflow-y: auto;">
-                @forelse(Auth::user()->notifications->take(10) as $notification)
-                  <a class="dropdown-item {{ $notification->read_at ? '' : 'font-weight-bold' }}" href="{{ route('notifications.show', $notification->id) }}">
+                @forelse(Auth::user()->unreadNotifications->take(10) as $notification)
+                  <a class="dropdown-item font-weight-bold" href="{{ route('notifications.show', $notification->id) }}">
+                    @if(Auth::user()->role == 'admin' && isset($notification->data['type']) && $notification->data['type'] == 'NewCompanyRegistration')
+                      <span class="text-danger">Permintaan Update Role:</span>
+                    @endif
                     {{ Str::limit($notification->data['message'] ?? 'Tidak ada pesan', 50) }}
                     <small class="text-muted d-block">{{ $notification->created_at->diffForHumans() }}</small>
                   </a>
                 @empty
-                  <span class="dropdown-item">Tidak ada notifikasi</span>
+                  <span class="dropdown-item">Tidak ada notifikasi baru</span>
                 @endforelse
-                @if(Auth::user()->notifications->count() > 10)
+                @if(Auth::user()->unreadNotifications->count() > 0)
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item text-center" href="{{ route('notifications.index') }}">Lihat Semua Notifikasi</a>
                 @endif
@@ -157,6 +164,7 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
   </script>
   <!-- End Google Map -->
+  
 
 </body>
 
