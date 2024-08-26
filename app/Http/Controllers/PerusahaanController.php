@@ -14,8 +14,8 @@ class PerusahaanController extends Controller
      */
     public function index()
     {
-    $perusahaan = Perusahaan::all(); // atau query lain sesuai kebutuhan
-    return view('admin.store', compact('perusahaan'));
+        $perusahaan = Perusahaan::latest()->paginate(12);
+        return view('admin.store', compact('perusahaan'));
     }
 
     /**
@@ -169,5 +169,11 @@ class PerusahaanController extends Controller
         }
 
         return redirect()->back()->with('success', 'Pendaftaran berhasil');
+    }
+
+    public function detail($id)
+    {
+        $perusahaan = Perusahaan::findOrFail($id);
+        return view('perusahaan.detail', compact('perusahaan'));
     }
 }

@@ -5,10 +5,12 @@ use App\Http\Controllers\PenggunaController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\KebijakanDanPrivasiController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\HomeController;
 
 // Crud dasar
 Route::resource('penggunas', PenggunaController::class);
@@ -23,9 +25,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // View
-Route::get('/', function () {
-    return view('Frontend.LayOut.Halaman.index');
-})->name('index');
+Route::get('/', [FrontendController::class, 'index'])->name('home');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/userprofile', [App\Http\Controllers\FrontendController::class, 'userProfile'])->name('userprofile');
