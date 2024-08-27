@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // View
-Route::get('/', [FrontendController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/userprofile', [App\Http\Controllers\FrontendController::class, 'userProfile'])->name('userprofile');
