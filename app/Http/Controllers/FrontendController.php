@@ -8,10 +8,10 @@ use App\Models\Perusahaan;
 class FrontendController extends Controller
 {
   
-//     public function index()
-// {
-//     $zalik = perusahaan::all(); 
-//     return view('Frontend.LayOut.Halaman.index', compact('zalik'));
-// }
+    public function index()
+    {
+        $perusahaans = Perusahaan::paginate(12); // Angka 12 bisa disesuaikan
+        return view('Frontend.LayOut.Halaman.perusahaan', compact('perusahaans'));
+    }
 
 }

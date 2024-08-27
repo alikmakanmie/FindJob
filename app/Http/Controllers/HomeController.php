@@ -25,7 +25,6 @@ class HomeController extends Controller
     public function index()
     {
         $perusahaan = Perusahaan::all(); // atau gunakan query yang sesuai
-        dd($perusahaan);
         return view('Frontend.LayOut.Halaman.index', compact('perusahaan'));
     }
 }
