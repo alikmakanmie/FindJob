@@ -68,9 +68,8 @@ class PerusahaanController extends Controller
             $data['foto2'] = 'images/' . $foto2Name;
         }
 
+        // Hanya membuat satu entri perusahaan
         Perusahaan::create($data);
-
-        Perusahaan::create($request->all());
 
         return redirect()->route('admin.store')
             ->with('success', 'Perusahaan berhasil ditambahkan.');
