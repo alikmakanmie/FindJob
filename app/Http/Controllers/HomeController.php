@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Perusahaan;
+use App\Notifications\NewCompanyRegistration;
 use Illuminate\Http\Request;
+use App\Models\Notification;
+use Illuminate\Support\Collection; // Added for collect() method
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
+
 
 class HomeController extends Controller
 {
@@ -25,6 +33,7 @@ class HomeController extends Controller
     public function index()
     {
         $perusahaan = Perusahaan::all(); // atau gunakan query yang sesuai
-        return view('Frontend.LayOut.Halaman.index', compact('perusahaan'));
+        $notifications = Notification::where('message', auth()->user()->id)->get();
+        return view('Frontend.LayOut.Halaman.index', compact('perusahaan', 'notifications'));
     }
 }

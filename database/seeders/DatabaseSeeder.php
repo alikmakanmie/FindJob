@@ -39,5 +39,49 @@ class DatabaseSeeder extends Seeder
                 'role' => 'perusahaan',
             ]
         );
+        \App\Models\Perusahaan::create([
+            'nama' => 'PT Maju Bersama',
+            'alamat' => 'Jl. Raya Utama No. 123, Jakarta Pusat',
+            'telepon' => '021-5551234',
+            'email' => 'info@majubersama.com',
+            'deskripsi' => 'Perusahaan teknologi informasi terkemuka di Indonesia',
+            'deskripsi1' => null,
+            'deskripsi2' => null,
+            'deskripsi3' => null,
+            'foto1' => null,
+            'foto2' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        \App\Models\Perusahaan::create([
+            'nama' => 'CV Karya Mandiri',
+            'alamat' => 'Jl. Pahlawan No. 45, Surabaya',
+            'telepon' => '031-7778888',
+            'email' => 'hrd@karyamandiri.co.id',
+            'deskripsi' => 'Perusahaan manufaktur yang fokus pada produk rumah tangga',
+            'deskripsi1' => null,
+            'deskripsi2' => null,
+            'deskripsi3' => null,
+            'foto1' => null,
+            'foto2' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        \App\Models\Perusahaan::create([
+            'nama' => 'PT Sejahtera Abadi',
+            'alamat' => 'Jl. Diponegoro No. 78, Bandung',
+            'telepon' => '022-6669999',
+            'email' => 'contact@sejahteraabadi.com',
+            'deskripsi' => 'Perusahaan properti dan pengembang perumahan terpercaya',
+            'deskripsi1' => null,
+            'deskripsi2' => null,
+            'deskripsi3' => null,
+            'foto1' => null,
+            'foto2' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

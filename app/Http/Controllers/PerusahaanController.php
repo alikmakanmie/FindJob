@@ -42,37 +42,40 @@ class PerusahaanController extends Controller
             'deskripsi3' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'pesan' => 'required|string'
         ]);
 
         $data = $request->all();
 
-        if ($request->hasFile('foto')) {
-            $foto = $request->file('foto');
-            $fotoName = time() . '_' . $foto->getClientOriginalName();
-            $foto->storeAs('public/images', $fotoName);
-            $data['foto'] = 'storage/images/' . $fotoName;
+        // Proses upload foto
+        $fotoFields = ['foto', 'foto1', 'foto2'];
+        foreach ($fotoFields as $field) {
+            if ($request->hasFile($field)) {
+                $foto = $request->file($field);
+                $fotoName = time() . '_' . $foto->getClientOriginalName();
+                $foto->storeAs('public/images', $fotoName);
+                $data[$field] = 'storage/images/' . $fotoName;
+            }
         }
 
-        if ($request->hasFile('foto1')) {
-            $foto1 = $request->file('foto1');
-            $foto1Name = time() . '_' . $foto1->getClientOriginalName();
-            $foto1->storeAs('public/images', $foto1Name);
-            $data['foto1'] = 'storage/images/' . $foto1Name;
+        // Simpan data perusahaan
+        $perusahaan = Perusahaan::create($data);
+
+        // Update user menjadi perusahaan
+        $user = auth()->user();
+        $user->role = 'perusahaan';
+        $user->perusahaan_id = $perusahaan->id;
+        $user->save();
+
+        // Kirim notifikasi ke admin
+        $admin = User::where('role', 'admin')->first();
+        if ($admin) {
+            $admin->notify(new NewCompanyRegistration($perusahaan));
         }
 
-        if ($request->hasFile('foto2')) {
-            $foto2 = $request->file('foto2');
-            $foto2Name = time() . '_' . $foto2->getClientOriginalName();
-            $foto2->storeAs('public/images', $foto2Name);
-            $data['foto2'] = 'storage/images/' . $foto2Name;
-        }
-
-        // Hanya membuat satu entri perusahaan
-        Perusahaan::create($data);
-
-        return redirect()->route('admin.store')
-            ->with('success', 'Perusahaan berhasil ditambahkan.');
+        return redirect()->route('home')
+            ->with('success', 'Pendaftaran perusahaan berha sil. Mohon tunggu persetujuan dari admin.');
     }
 
     /**

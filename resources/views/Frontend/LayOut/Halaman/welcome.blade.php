@@ -62,18 +62,6 @@
           <li class="nav-item active">
             <a class="nav-link" href="{{ route('index') }}">Home <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ asset('/assets/about.html') }}"> About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ asset('/assets/service.html') }}">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ asset('/assets/why.html') }}">Why Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ asset('/assets/team.html') }}">Team</a>
-          </li>
           @guest
             <li class="nav-item">
               <a class="nav-link" href="{{ route('login') }}"> <i class="fa fa-user" aria-hidden="true"></i> Login</a>
@@ -97,6 +85,9 @@
                 @if(Auth::user()->role == 'admin')
                   <a class="dropdown-item" href="{{ route('admin.store') }}">Lihat Data Perusahaan</a>
                 @endif
+                @if(Auth::user()->role == 'admin')
+                  <a class="dropdown-item" href="{{ route('admin.permintaan') }}">Lihat Permintaan</a>
+                @endif
                 @if(Auth::user()->role == 'perusahaan')
                   <a class="dropdown-item" href="{{ route('perusahaan.create') }}">Tambah Data Perusahaan</a>
                   <a class="dropdown-item" href="{{ route('perusahaan.index') }}">Lihat Data Perusahaan</a>
@@ -119,9 +110,11 @@
                 @forelse(Auth::user()->unreadNotifications->take(10) as $notification)
                   <a class="dropdown-item font-weight-bold" href="{{ route('notifications.show', $notification->id) }}">
                     @if(Auth::user()->role == 'admin' && isset($notification->data['type']) && $notification->data['type'] == 'NewCompanyRegistration')
-                      <span class="text-danger">Permintaan Update Role:</span>
+                      <span class="text-danger">Permintaan Upgrade Role:</span>
+                      {{ $notification->data['user_name'] }} ingin mengupgrade role menjadi perusahaan.
+                    @else
+                      {{ Str::limit($notification->message ?? 'Tidak ada pesan', 50) }}
                     @endif
-                    {{ Str::limit($notification->data['message'] ?? 'Tidak ada pesan', 50) }}
                     <small class="text-muted d-block">{{ $notification->created_at->diffForHumans() }}</small>
                   </a>
                 @empty
