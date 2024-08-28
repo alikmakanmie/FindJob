@@ -6,7 +6,7 @@
     @forelse(Auth::user()->notifications as $notification)
         <div class="alert alert-info">
             <a href="{{ route('notifications.show', $notification->id) }}">
-                {{ $notification->data['message'] ?? 'Tidak ada pesan' }}
+                {{ $notification->message ?? 'Tidak ada pesan' }}
             </a>
             <small class="float-right">{{ $notification->created_at->diffForHumans() }}</small>
         </div>

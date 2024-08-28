@@ -21,7 +21,7 @@
                         <div class="row mb-3">
                             <label for="alamat" class="col-md-4 col-form-label text-md-end">Alamat</label>
                             <div class="col-md-6">
-                                <textarea id="alamat" class="form-control" name="alamat" rows="3" required></textarea>
+                                <input id="nama" type=alamat" class="form-control" name="alamat" required autofocus>
                             </div>
                         </div>
 

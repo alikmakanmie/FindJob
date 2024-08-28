@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 @if($perusahaan->foto)
-                                    <img src="{{ asset('storage/'.$perusahaan->foto) }}" alt="Logo Perusahaan" class="img-fluid rounded mb-3">
+                                    <img src="{{ asset($perusahaan->foto) }}" alt="Logo Perusahaan" class="img-fluid rounded mb-3">
                                 @endif
                             </div>
                             <div class="col-md-8">
@@ -47,13 +47,13 @@
                             <div class="row">
                                 @if($perusahaan->foto1)
                                     <div class="col-md-6 mb-3">
-                                        <img src="{{ asset('storage/'.$perusahaan->foto1) }}" alt="Foto Tambahan 1" class="img-fluid rounded">
+                                        <img src="{{ asset($perusahaan->foto1) }}" alt="Foto Tambahan 1" class="img-fluid rounded">
                                     </div>
                                 @endif
                                 
                                 @if($perusahaan->foto2)
                                     <div class="col-md-6 mb-3">
-                                        <img src="{{ asset('storage/'.$perusahaan->foto2) }}" alt="Foto Tambahan 2" class="img-fluid rounded">
+                                        <img src="{{ asset($perusahaan->foto2) }}" alt="Foto Tambahan 2" class="img-fluid rounded">
                                     </div>
                                 @endif
                             </div>
@@ -63,7 +63,26 @@
                     @endif
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{{ route('perusahaan.index') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Kembali ke Daftar Perusahaan</a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            @auth
+                                @if(Auth::user()->role == 'user')
+                                    <a href="{{ route('daftar.perusahaan', ['id' => $perusahaan->id]) }}" class="btn btn-success mb-3">
+                                        <i class="fas fa-user-plus"></i> Daftar ke Perusahaan Ini
+                                    </a>
+                                @endif
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-info mb-3">
+                                    <i class="fas fa-sign-in-alt"></i> Login untuk Mendaftar
+                                </a>
+                            @endauth
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route('tampilkansemua') }}" class="btn btn-primary">
+                                <i class="fas fa-arrow-left"></i> Kembali ke Daftar Perusahaan
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

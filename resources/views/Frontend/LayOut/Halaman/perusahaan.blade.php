@@ -1,40 +1,38 @@
 @extends('Frontend.LayOut.Halaman.welcome')
 
 @section('content')
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="edge-box">
-                <h2 class="text-center mb-4">Daftar Perusahaan</h2>
-                
-                @if(isset($perusahaans) && $perusahaans->count() > 0)
-                    <div class="row">
-                        @foreach($perusahaans as $perusahaan)
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100 shadow-sm">
-                                    <img src="{{ asset('storage/'.$perusahaan->foto) }}" class="card-img-top" alt="{{ $perusahaan->nama }}">
-                                    <div class="card-body">
-                                        <h5 class="card-title font-weight-bold">{{ $perusahaan->nama }}</h5>
-                                        <p class="card-text text-muted">{{ Str::limit($perusahaan->deskripsi, 100) }}</p>
-                                    </div>
-                                    {{-- <div class="card-footer bg-transparent border-0">
-                                        <a href="{{ route('perusahaan.detail', $perusahaan->id) }}" class="btn btn-primary btn-sm btn-block">Lihat Detail</a>
-                                    </div> --}}
-                                </div>
-                            </div>
-                        @endforeach
+<section class="about_section layout_padding" style="background-color: #e6f2ff;">
+    <div class="container">
+      <div class="row">
+        @if(isset($perusahaan) && count($perusahaan) > 0)
+          @foreach($perusahaan as $p)
+            <div class="col-md-4 mb-4">
+              <div class="card h-100 shadow">
+                <div class="card-img-top" style="height: 200px; overflow: hidden;">
+                  @if($p->foto)
+                    <img src="{{ asset(''. $p->foto) }}" alt="{{ $p->nama }}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                  @else
+                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center h-100">
+                      <span>Tidak ada foto</span>
                     </div>
-                    
-                    <div class="d-flex justify-content-center mt-4">
-                        {{ $perusahaans->links() }}
-                    </div>
-                @else
-                    <div class="alert alert-info text-center" role="alert">
-                        Tidak ada data perusahaan yang tersedia saat ini.
-                    </div>
-                @endif
+                  @endif
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title" style="color: black;">{{ $p->nama }}</h5>
+                  <p class="card-text flex-grow-1" style="color: black;">{{ Str::limit($p->deskripsi, 100) }}</p>
+                  {{-- <a href="{{ route('perusahaan.detail', $p->id) }}" class="btn btn-primary mt-auto">Lihat Detail</a> --}}
+                </div>
+              </div>
             </div>
-        </div>
+          @endforeach
+        @else
+          <div class="col-12 text-center">
+            <p>Tidak ada data perusahaan yang tersedia saat ini.</p>
+          </div>
+        @endif
+      </div>
+    
     </div>
-</div>
+    </div>
+  </section>
 @endsection

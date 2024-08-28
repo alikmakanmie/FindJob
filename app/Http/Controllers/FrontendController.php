@@ -10,8 +10,18 @@ class FrontendController extends Controller
   
     public function index()
     {
-        $perusahaans = Perusahaan::paginate(12); // Angka 12 bisa disesuaikan
-        return view('Frontend.LayOut.Halaman.perusahaan', compact('perusahaans'));
+        return view('Frontend.LayOut.Halaman.userprofile');
     }
 
+    public function perusahaan()
+    {
+        $perusahaan = Perusahaan::all();  // Angka 12 bisa disesuaikan
+        return view('Frontend.LayOut.Halaman.perusahaan', compact('perusahaan'));
+    }
+
+    public function tampilkanperusahaan($id)
+    {
+        $perusahaan = Perusahaan::find($id);
+        return view('Frontend.LayOut.Halaman.lihatdetail', compact('perusahaan'));
+    }
 }

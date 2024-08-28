@@ -9,10 +9,26 @@
 
                 <div class="card-body">
                     @if($notification)
-                        <h5 class="card-title">{{ $notification->data['message'] ?? 'Tidak ada pesan' }}</h5>
+                       
+                        <p>{{ $notification->data['massage'] ?? 'Tidak ada pesan tambahan'}}</p>
                         <p class="card-text">
                             <small class="text-muted">Diterima: {{ $notification->created_at->format('d M Y H:i') }}</small>
                         </p>
+
+                        @if(Auth::user()->role == 'admin' && isset($notification->data['type']) && $notification->data['type'] == 'NewCompanyRegistration')
+                            <form action="{{ route('admin.updateUserRole', $notification->data['user_id']) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <label for="role">Ubah Role Pengguna:</label>
+                                    <select name="role" id="role" class="form-control">
+                                        <option value="user">User</option>
+                                        <option value="perusahaan">Perusahaan</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3">Perbarui Role</button>
+                            </form>
+                        @endif
 
                         @if(Auth::user()->role == 'admin' && isset($notification->data['type']) && $notification->data['type'] == 'NewCompanyRegistration')
                             <form action="{{ route('admin.updateUserRole', $notification->data['user_id']) }}" method="POST">

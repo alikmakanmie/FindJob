@@ -21,15 +21,6 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="no_telepon">Nomor Telepon</label>
                             <input type="text" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" required>
                             @error('no_telepon')
@@ -48,13 +39,9 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="password_confirmation">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="deskripsi_perusahaan">Deskripsi Perusahaan</label>
-                            <textarea class="form-control @error('deskripsi_perusahaan') is-invalid @enderror" id="deskripsi_perusahaan" name="deskripsi_perusahaan" rows="3" required>{{ old('deskripsi_perusahaan') }}</textarea>
-                            @error('deskripsi_perusahaan')
+                            <label for="message">Pesan untuk Admin</label>
+                            <textarea class="form-control @error('message') is-invalid @enderror" id="message" name="message" rows="3" required>{{ old('message') }}</textarea>
+                            @error('message')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

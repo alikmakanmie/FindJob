@@ -50,22 +50,22 @@ class PerusahaanController extends Controller
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
             $fotoName = time() . '_' . $foto->getClientOriginalName();
-            $foto->move(public_path('images'), $fotoName);
-            $data['foto'] = 'images/' . $fotoName;
+            $foto->storeAs('public/images', $fotoName);
+            $data['foto'] = 'storage/images/' . $fotoName;
         }
 
         if ($request->hasFile('foto1')) {
             $foto1 = $request->file('foto1');
             $foto1Name = time() . '_' . $foto1->getClientOriginalName();
-            $foto1->move(public_path('images'), $foto1Name);
-            $data['foto1'] = 'images/' . $foto1Name;
+            $foto1->storeAs('public/images', $foto1Name);
+            $data['foto1'] = 'storage/images/' . $foto1Name;
         }
 
         if ($request->hasFile('foto2')) {
             $foto2 = $request->file('foto2');
             $foto2Name = time() . '_' . $foto2->getClientOriginalName();
-            $foto2->move(public_path('images'), $foto2Name);
-            $data['foto2'] = 'images/' . $foto2Name;
+            $foto2->storeAs('public/images', $foto2Name);
+            $data['foto2'] = 'storage/images/' . $foto2Name;
         }
 
         // Hanya membuat satu entri perusahaan
@@ -115,22 +115,22 @@ class PerusahaanController extends Controller
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
             $fotoName = time() . '_' . $foto->getClientOriginalName();
-            $foto->move(public_path('images'), $fotoName);
-            $data['foto'] = 'images/' . $fotoName;
+            $foto->storeAs('public/images', $fotoName);
+            $data['foto'] = 'storage/images/' . $fotoName;
         }
 
         if ($request->hasFile('foto1')) {
             $foto1 = $request->file('foto1');
             $foto1Name = time() . '_' . $foto1->getClientOriginalName();
-            $foto1->move(public_path('images'), $foto1Name);
-            $data['foto1'] = 'images/' . $foto1Name;
+            $foto1->storeAs('public/images', $foto1Name);
+            $data['foto1'] = 'storage/images/' . $foto1Name;
         }
 
         if ($request->hasFile('foto2')) {
             $foto2 = $request->file('foto2');
             $foto2Name = time() . '_' . $foto2->getClientOriginalName();
-            $foto2->move(public_path('images'), $foto2Name);
-            $data['foto2'] = 'images/' . $foto2Name;
+            $foto2->storeAs('public/images', $foto2Name);
+            $data['foto2'] = 'storage/images/' . $foto2Name;
         }
 
         $perusahaan->update($request->all());
@@ -145,7 +145,20 @@ class PerusahaanController extends Controller
     public function destroy(Perusahaan $perusahaan)
     {
         $perusahaan->delete();
-
+        // Hapus foto dari storage jika ada
+        if ($perusahaan->foto && Storage::exists('public/images/' . basename($perusahaan->foto))) {
+            Storage::delete('' . basename($perusahaan->foto));
+        }
+        
+        // Hapus foto1 dari storage jika ada
+        if ($perusahaan->foto1 && Storage::exists('public/images/' . basename($perusahaan->foto1))) {
+            Storage::delete('' . basename($perusahaan->foto1));
+        }
+        
+        // Hapus foto2 dari storage jika ada  
+        if ($perusahaan->foto2 && Storage::exists('public/images/' . basename($perusahaan->foto2))) {
+            Storage::delete('' . basename($perusahaan->foto2));
+        }
         return redirect()->route('perusahaan.index')
             ->with('success', 'Perusahaan berhasil dihapus.');
     }

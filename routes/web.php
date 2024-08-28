@@ -26,19 +26,20 @@ Route::middleware(['auth'])->group(function () {
 
 // View
 Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/tampilkan-perusahaan', [FrontendController::class, 'index'])->name('tampilkansemua');
+Route::get('/tampilkan-perusahaan/{id}', [FrontendController::class, 'tampilkanperusahaan'])->name('tampilkanperusahaan');
+Route::get('/tampilkan-semua', [FrontendController::class, 'perusahaan'])->name('tampilkansemua');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/userprofile', [App\Http\Controllers\FrontendController::class, 'userProfile'])->name('userprofile');
+Route::get('/userprofile', [App\Http\Controllers\FrontendController::class, 'index'])->name('userprofile');
 
 // ... rute yang sudah ada ...
 
 Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
 Route::get('/admin/store', [PerusahaanController::class, 'index'])->name('admin.store');
 Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
-Route::get('/kebijakandanprivasi', [KebijakanDanPrivasiController::class, 'index'])->name('kebijakan.privasi');
 Route::get('/daftar/perusahaan', [KebijakanDanPrivasiController::class, 'daftarPerusahaan'])->name('daftar.perusahaan');
 Route::post('/perusahaan/daftar', [PerusahaanController::class, 'daftar'])->name('perusahaan.daftar');
+Route::get('/kebijakandanprivasi', [KebijakanDanPrivasiController::class, 'index'])->name('kebijakan.privasi');
 
 // Rute untuk notifikasi
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
@@ -50,3 +51,4 @@ Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/upgrade-role/{user}', [AdminController::class, 'upgradeRole'])->name('admin.upgradeRole');
 });
+
