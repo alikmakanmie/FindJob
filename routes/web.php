@@ -13,7 +13,15 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HomeController;
 
 // Crud dasar
-Route::resource('penggunas', PenggunaController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::get('penggunas', [PenggunaController::class, 'index'])->name('penggunas.index');
+    Route::get('penggunas/create', [PenggunaController::class, 'create'])->name('penggunas.create');
+    Route::post('penggunas', [PenggunaController::class, 'store'])->name('penggunas.store');
+    Route::get('penggunas/{pengguna}', [PenggunaController::class, 'show'])->name('penggunas.show');
+    Route::get('penggunas/{pengguna}/edit', [PenggunaController::class, 'edit'])->name('penggunas.edit');
+    Route::put('penggunas/{pengguna}', [PenggunaController::class, 'update'])->name('penggunas.update');
+    Route::delete('penggunas/{pengguna}', [PenggunaController::class, 'destroy'])->name('penggunas.destroy');
+});
 Route::middleware(['auth'])->group(function () {
     Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan.index');
     Route::get('/perusahaan/create', [PerusahaanController::class, 'create'])->name('perusahaan.create');
@@ -31,36 +39,39 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     });
 });
-
 // View
 Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/tampilkan-perusahaan/{id}', [FrontendController::class, 'tampilkanperusahaan'])->name('tampilkanperusahaan');
-Route::get('/tampilkan-semua', [FrontendController::class, 'perusahaan'])->name('tampilkansemua');
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/userprofile', [App\Http\Controllers\FrontendController::class, 'index'])->name('userprofile');
 
 // ... rute yang sudah ada ...
-
-Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
-Route::get('/admin/store', [PerusahaanController::class, 'index'])->name('admin.store');
-Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
-Route::post('/perusahaan/daftar', [PerusahaanController::class, 'daftar'])->name('perusahaan.daftar');
-Route::get('/kebijakandanprivasi', [KebijakanDanPrivasiController::class, 'index'])->name('kebijakan.privasi');
-Route::get('/daftar/perusahaan', [KebijakanDanPrivasiController::class, 'daftarPerusahaan'])->name('daftar.perusahaan');
-Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
-// Rute untuk permintaan upgrade role
-
-// Rute untuk notifikasi
-Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-Route::get('/notifications/{id}', [NotificationController::class, 'show'])->name('notifications.show');
-Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
-
-// Rute untuk upgrade role
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/permintaan', [AdminController::class, 'viewPermintaan'])->name('admin.permintaan');
-    Route::put('/admin/upgrade-role/{user}', [AdminController::class, 'upgradeRole'])->name('admin.upgradeRole');
-    Route::put('/admin/downgrade-role/{user}', [AdminController::class, 'downgradeRole'])->name('admin.downgradeRole');
+Route::controller(FrontendController::class)->group(function () {
+    Route::get('/tampilkan-perusahaan/{id}', 'tampilkanperusahaan')->name('tampilkanperusahaan');
+    Route::get('/tampilkan-semua', 'perusahaan')->name('tampilkansemua');
+    Route::get('/userprofile', 'index')->name('userprofile');
 });
 
+// Rute untuk notifikasi
+Route::controller(NotificationController::class)->group(function () {
+    Route::get('/notifications', 'index')->name('notifications.index');
+    Route::get('/notifications/{id}', 'show')->name('notifications.show');
+    Route::post('/notifications/{id}/mark-as-read', 'markAsRead')->name('notifications.markAsRead');
+});
+
+
+// Rute untuk upgrade role
+Route::middleware(['auth', 'admin'])->controller(AdminController::class)->group(function () {
+    Route::get('/admin/permintaan', 'Permintaan')->name('admin.permintaan');
+    Route::post('/admin/permintaan', 'storePermintaan')->name('admin.store');
+    Route::put('/admin/upgrade-role/{user}', 'upgradeRole')->name('admin.upgradeRole');
+    Route::put('/admin/downgrade-role/{user}', 'downgradeRole')->name('admin.downgradeRole');
+    Route::put('/admin/approve/{user}', 'approve')->name('admin.approve');
+    Route::put('/admin/reject/{user}', 'reject')->name('admin.reject');
+});
+
+
+// Rute untuk permintaan upgrade role
+Route::post('/perusahaan/daftar', [PerusahaanController::class, 'daftar'])->name('perusahaan.daftar');
+Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
+Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
+Route::get('/kebijakandanprivasi', [KebijakanDanPrivasiController::class, 'index'])->name('kebijakan.privasi');
+Route::get('/daftar/perusahaan', [KebijakanDanPrivasiController::class, 'daftarPerusahaan'])->name('daftar.perusahaan');

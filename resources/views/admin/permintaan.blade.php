@@ -9,10 +9,8 @@
                     <h4 class="mb-0">Permintaan Upgrade Role</h4>
                 </div>
                 <div class="card-body">
-                    @if($permintaan->isEmpty())
-                        <div class="alert alert-info text-center" role="alert">
-                            <i class="fa fa-info-circle mr-2"></i>Tidak ada permintaan upgrade role saat ini.
-                        </div>
+                    @if($users->isEmpty())
+                        <p class="text-center">Tidak ada permintaan upgrade role saat ini.</p>
                     @else
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -26,41 +24,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($permintaan as $req)
+                                    @foreach($users as $user)
                                     <tr>
-                                        <td>{{ $req->data['user_name'] ?? 'Tidak tersedia' }}</td>
-                                        <td>{{ $req->data['user_email'] ?? 'Tidak tersedia' }}</td>
-                                        <td>{{ $req->created_at->format('d M Y, H:i') }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->created_at->format('d M Y, H:i') }}</td>
                                         <td>
-                                            @if($req->read_at)
-                                                <span class="badge badge-success">Sudah Diproses</span>
-                                            @else
-                                                <span class="badge badge-warning">Menunggu</span>
-                                            @endif
+                                            <span class="badge bg-warning">Menunggu</span>
                                         </td>
                                         <td>
-                                            @if($user->role === 'user')
-                                            <form action="{{ route('admin.upgradeRole', $user) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.approve', $user->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PUT')
-                                                <button type="submit" class="btn btn-sm btn-primary">Upgrade ke Perusahaan</button>
+                                                <button type="submit" class="btn btn-sm btn-success">Setujui</button>
                                             </form>
-                                        @elseif($user->role === 'perusahaan')
-                                            <form action="{{ route('admin.downgradeRole', $user) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.reject', $user->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PUT')
-                                                <button type="submit" class="btn btn-sm btn-warning">Downgrade ke User</button>
+                                                <button type="submit" class="btn btn-sm btn-danger">Tolak</button>
                                             </form>
-                                        @endif
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        <div class="d-flex justify-content-center mt-4">
-                            {{ $permintaan->links() }}
-                        </div>
+                        @if($users instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                            <div class="d-flex justify-content-center mt-4">
+                                {{ $users->links() }}
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>

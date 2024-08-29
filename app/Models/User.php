@@ -24,6 +24,7 @@ class User extends Authenticatable
         'no_telepon',
         'deskripsi_perusahaan',
         'role',
+        'status', 
     ];
 
     /**

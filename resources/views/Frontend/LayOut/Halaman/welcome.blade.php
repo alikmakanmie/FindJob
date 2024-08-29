@@ -82,8 +82,8 @@
                 @if(Auth::user()->role == 'admin')
                   <a class="dropdown-item" href="{{ route('perusahaan.create') }}">Tambah Data</a>
                 @endif
-                @if(Auth::user()->role == 'admin')
-                  <a class="dropdown-item" href="{{ route('admin.store') }}">Lihat Data Perusahaan</a>
+                @if(Auth::user()->role == 'admin' || Auth::user()->role == 'perusahaan')
+                  <a class="dropdown-item" href="{{ route('perusahaan.index') }}">Lihat Data Perusahaan</a>
                 @endif
                 @if(Auth::user()->role == 'admin')
                   <a class="dropdown-item" href="{{ route('admin.permintaan') }}">Lihat Permintaan</a>

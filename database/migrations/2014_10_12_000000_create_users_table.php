@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('deskripsi_perusahaan');
             $table->enum('role', ['admin', 'user', 'perusahaan'])->default('user'); 
+            $table->enum('status', ['menunggu', 'ditolak', 'disetujui'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

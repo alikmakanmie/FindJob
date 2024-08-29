@@ -33,7 +33,7 @@ class HomeController extends Controller
     public function index()
     {
         $perusahaan = Perusahaan::all(); // atau gunakan query yang sesuai
-        $notifications = Notification::where('message', auth()->user()->id)->get();
-        return view('Frontend.LayOut.Halaman.index', compact('perusahaan', 'notifications'));
+        // $notifications = auth()->user()->notification;
+        return view('Frontend.LayOut.Halaman.index', compact('perusahaan'));
     }
 }
