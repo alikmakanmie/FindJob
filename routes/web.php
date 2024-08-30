@@ -30,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/perusahaan/{perusahaan}/edit', [PerusahaanController::class, 'edit'])->name('perusahaan.edit');
     Route::put('/perusahaan/{perusahaan}', [PerusahaanController::class, 'update'])->name('perusahaan.update');
     Route::delete('/perusahaan/{perusahaan}', [PerusahaanController::class, 'destroy'])->name('perusahaan.destroy');
+    Route::get('/perusahaan/survey', [PerusahaanController::class, 'survey'])->name('perusahaan.survey');
+    Route::post('/perusahaan/survey', [PerusahaanController::class, 'storeSurvey'])->name('perusahaan.storeSurvey');
 });
 
 // login
@@ -61,7 +63,6 @@ Route::controller(NotificationController::class)->group(function () {
 // Rute untuk upgrade role
 Route::middleware(['auth', 'admin'])->controller(AdminController::class)->group(function () {
     Route::get('/admin/permintaan', 'Permintaan')->name('admin.permintaan');
-    Route::post('/admin/permintaan', 'storePermintaan')->name('admin.store');
     Route::put('/admin/upgrade-role/{user}', 'upgradeRole')->name('admin.upgradeRole');
     Route::put('/admin/downgrade-role/{user}', 'downgradeRole')->name('admin.downgradeRole');
     Route::put('/admin/approve/{user}', 'approve')->name('admin.approve');
@@ -70,8 +71,9 @@ Route::middleware(['auth', 'admin'])->controller(AdminController::class)->group(
 
 
 // Rute untuk permintaan upgrade role
-Route::post('/perusahaan/daftar', [PerusahaanController::class, 'daftar'])->name('perusahaan.daftar');
 Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
 Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
 Route::get('/kebijakandanprivasi', [KebijakanDanPrivasiController::class, 'index'])->name('kebijakan.privasi');
 Route::get('/daftar/perusahaan', [KebijakanDanPrivasiController::class, 'daftarPerusahaan'])->name('daftar.perusahaan');
+Route::post('/perusahaan/daftar', [PerusahaanController::class, 'daftar'])->name('perusahaan.daftar');
+Route::post('/admin/permintaan', [AdminController::class, 'storePermintaan'])->name('admin.storePermintaan');

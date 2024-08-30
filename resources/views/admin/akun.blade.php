@@ -1,4 +1,4 @@
-@extends('Frontend.LayOut.Halaman.welcome')
+@@@extends('Frontend.LayOut.Halaman.welcome')
 
 @section('content')
 <div class="row mb-3">

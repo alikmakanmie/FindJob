@@ -191,4 +191,6 @@ class PerusahaanController extends Controller
         $perusahaan = Perusahaan::findOrFail($id);
         return view('perusahaan.detail', compact('perusahaan'));
     }
+
+    
 }

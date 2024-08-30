@@ -45,38 +45,35 @@ class AdminController extends Controller
 
         // Validasi input
         $request->validate([
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8',
+            'nama_perusahaan' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Dapatkan pengguna yang sedang login
-        $user = Auth::user();
+        // Buat pengguna baru dengan status menunggu
+        $user = User::create([
+            'name' => $request->nama_perusahaan,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => 'perusahaan',
+            'status' => 'menunggu',
+        ]);
 
-        // Periksa apakah email yang dimasukkan sama dengan email pengguna yang sedang login
-        if ($user->email !== $request->email) {
-            return redirect()->back()->with('error', 'Email yang dimasukkan harus sama dengan email akun Anda.');
-        }
-
-        // Perbarui status pengguna
-        $user->status = 'menunggu';
-        $user->save();
-
-        // Periksa apakah data berhasil diperbarui
-        if ($user->wasChanged()) {
-            // Jika berhasil, tambahkan log atau debugging
-            \Log::info('Status pengguna berhasil diperbarui: ' . $user->id);
-            return redirect()->back()->with('success', 'Permintaan upgrade ke akun perusahaan telah diterima dan sedang menunggu persetujuan.');
+        // Periksa apakah pengguna berhasil dibuat
+        if ($user) {
+            \Log::info('Pengguna baru berhasil dibuat dengan status menunggu: ' . $user->id);
+            Auth::login($user); // Pastikan ini berhasil
+            return redirect()->route('perusahaan.survey')->with('success', 'Pendaftaran berhasil. Silakan lengkapi survei berikut.');
         } else {
-            // Jika gagal, tambahkan log error dan kembalikan pesan error
-            \Log::error('Gagal memperbarui status pengguna');
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memproses permintaan. Silakan coba lagi.');
+            \Log::error('Gagal membuat pengguna baru');
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
         }
     }
 
     public function approve(User $user)
     {
         $user->status = 'disetujui';
-        $user->role = 'perusahaan';
+        $user->role = 'user';
         $user->save();
 
         // Tandai notifikasi sebagai sudah dibaca
@@ -110,4 +107,26 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Permintaan upgrade ke akun perusahaan telah ditolak.');
     }
 
+    public function survey()
+    {
+        return view('perusahaan.survey');
+    }
+
+    public function storeSurvey(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nama_perusahaan' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'telepon' => 'required|string|max:15',
+            'email' => 'required|email|unique:perusahaan,email',
+            'industri' => 'required|string',
+            // Tambahkan validasi lain sesuai kebutuhan
+        ]);
+
+        $perusahaan = new Perusahaan($validatedData);
+        $perusahaan->user_id = auth()->id();
+        $perusahaan->save();
+
+        return redirect()->route('home')->with('success', 'Data survey berhasil disimpan.');
+    }
 }
