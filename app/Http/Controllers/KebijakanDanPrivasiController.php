@@ -21,10 +21,7 @@ class KebijakanDanPrivasiController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function daftarPerusahaan()
-    {
-        return view('perusahaan.daftar');
-    }
+   
 
     /**
      * Memproses permintaan upgrade ke akun perusahaan.

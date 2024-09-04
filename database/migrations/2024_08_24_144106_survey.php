@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('survey_questions', function (Blueprint $table) {
             $table->id();
-            $table->string('question');
+            $table->string('user_id');
+            $table->string('nama_perusahaan');
+            $table->string('deskripsi_perusahaan');
+            $table->string('produk_layanan');
+            $table->string('target_pasar');
+            $table->string('keunggulan_kompetitif');
+            $table->string('rencana_pengembangan');
             $table->timestamps();
         });
     }

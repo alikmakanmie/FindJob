@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Survey;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +40,11 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Peran pengguna berhasil diturunkan menjadi User.');
     }
 
+    public function daftarPerusahaan()
+    {
+        return view('perusahaan.daftar');
+    }
+
     public function storePermintaan(Request $request)
     {
 
@@ -55,15 +60,15 @@ class AdminController extends Controller
             'name' => $request->nama_perusahaan,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role' => 'perusahaan',
+            'role' => 'user',
             'status' => 'menunggu',
         ]);
 
         // Periksa apakah pengguna berhasil dibuat
         if ($user) {
             \Log::info('Pengguna baru berhasil dibuat dengan status menunggu: ' . $user->id);
-            Auth::login($user); // Pastikan ini berhasil
-            return redirect()->route('perusahaan.survey')->with('success', 'Pendaftaran berhasil. Silakan lengkapi survei berikut.');
+            Auth::login($user);
+            return redirect()->route('daftar.survey');
         } else {
             \Log::error('Gagal membuat pengguna baru');
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
@@ -116,17 +121,27 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'nama_perusahaan' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'telepon' => 'required|string|max:15',
-            'email' => 'required|email|unique:perusahaan,email',
-            'industri' => 'required|string',
-            // Tambahkan validasi lain sesuai kebutuhan
+            'deskripsi_perusahaan' => 'required|string',
+            'produk_layanan' => 'required|string',
+            'target_pasar' => 'required|string',
+            'keunggulan_kompetitif' => 'required|string',
+            'rencana_pengembangan' => 'required|string',
         ]);
+    
+        $validatedData['user_id'] = $request->user()->id;
+    
+        $survey = Survey::create($validatedData);
+    
+        if ($survey) {
+            return redirect()->route('home')->with('success', 'Data survey berhasil disimpan.');
+        } else {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data survey. Silakan coba lagi.');
+        }
+    }
 
-        $perusahaan = new Perusahaan($validatedData);
-        $perusahaan->user_id = auth()->id();
-        $perusahaan->save();
-
-        return redirect()->route('home')->with('success', 'Data survey berhasil disimpan.');
+    public function viewSurvey(User $user)
+    {
+        $survey = Survey::where('user_id', $user->id)->firstOrFail();
+        return view('admin.viewSurvey', compact('survey', 'user'));
     }
 }

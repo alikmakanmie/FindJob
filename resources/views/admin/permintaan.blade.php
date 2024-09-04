@@ -43,6 +43,7 @@
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-sm btn-danger">Tolak</button>
                                             </form>
+                                            <a href="{{ route('admin.viewSurvey', $user->id) }}" class="btn btn-sm btn-info">Lihat Survey</a>
                                         </td>
                                     </tr>
                                     @endforeach

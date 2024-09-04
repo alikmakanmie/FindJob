@@ -8,9 +8,9 @@
                 <div class="card-header">Survei Pendaftaran Perusahaan</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('perusahaan.survey.submit') }}">
+                    <form method="POST" action="{{ route('daftar.storeSurvey') }}">
                         @csrf
-
+                        
                         <div class="mb-3">
                             <label for="nama_perusahaan" class="form-label">Nama Perusahaan</label>
                             <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan" required>
