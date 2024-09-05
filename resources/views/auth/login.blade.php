@@ -54,6 +54,27 @@
                             <button type="submit" class="btn btn-primary">
                                 Masuk
                             </button>
+                        </div>
+                        <script>
+                            document.querySelector('form').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                fetch('{{ route('login') }}', {
+                                    method: 'POST',
+                                    body: new FormData(this),
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'menunggu') {
+                                        window.location.href = '{{ route('daftar.survey') }}';
+                                    } else {
+                                        this.submit();
+                                    }
+                                });
+                            });
+                        </script>
 
                             @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">

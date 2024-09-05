@@ -6,10 +6,10 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h2 class="mb-0 text-center">Data Perusahaan yang Dibuat Admin</h2>
+                    <h2 class="mb-0 text-center">Data Perusahaan</h2>
                 </div>
                 <div class="card-body bg-white">
-                    @if(count($perusahaan) > 0)
+                    @if(count($userid) > 0)
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead-light">
@@ -23,7 +23,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($perusahaan as $index => $p)
+                                    @foreach($userid as $index => $p)
                                         <tr>
                                             <td class="text-center">{{ $index + 1 }}</td>
                                             <td>{{ $p->nama }}</td>

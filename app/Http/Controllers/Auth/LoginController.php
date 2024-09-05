@@ -23,11 +23,18 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
+     * Menentukan ke mana pengguna akan diarahkan setelah login.
      *
-     * @var string
+     * @return string
      */
-    protected $redirectTo = '/';
+    protected function redirectTo()
+    {
+        if (auth()->user()->status === 'menunggu') {
+            return route('daftar.survey');
+        }
+
+        return '/';
+    }
 
     /**
      * Create a new controller instance.

@@ -90,7 +90,6 @@
                 @endif
                 @if(Auth::user()->role == 'perusahaan')
                   <a class="dropdown-item" href="{{ route('perusahaan.create') }}">Tambah Data Perusahaan</a>
-                  <a class="dropdown-item" href="{{ route('perusahaan.index') }}">Lihat Data Perusahaan</a>
                 @endif
                 <div class="dropdown-divider"></div>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">

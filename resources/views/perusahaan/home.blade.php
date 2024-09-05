@@ -4,32 +4,30 @@
 <div class="container bg-white p-4 rounded">
     <h1 class="mb-4">Data Perusahaan</h1>
     
-    @if(isset($perusahaan) && $perusahaan->count() > 0)
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nama Perusahaan</th>
-                    <th>Alamat</th>
-                    <th>Email</th>
-                    <th>Telepon</th>
-                    <th>Industri</th>
-                </tr>
-            </thead>
             <tbody>
-                @foreach($perusahaan as $p)
-                <tr>
-                    <td>{{ $p->nama }}</td>
-                    <td>{{ $p->alamat }}</td>
-                    <td>{{ $p->email }}</td>
-                    <td>{{ $p->telepon }}</td>
-                    <td>{{ $p->industri }}</td>
-                </tr>
-                @endforeach
+                @if(auth()->user()->role == 'admin')
+                    @foreach($perusahaan as $p)
+                    <tr>
+                        <td>{{ $p->nama }}</td>
+                        <td>{{ $p->alamat }}</td>
+                        <td>{{ $p->email }}</td>
+                        <td>{{ $p->telepon }}</td>
+                        <td>{{ $p->industri }}</td>
+                    </tr>
+                    @endforeach
+                @elseif(auth()->user()->role == 'perusahaan')
+                    @foreach($perusahaan->where('user_id', auth()->id()) as $p)
+                    <tr>
+                        <td>{{ $p->nama }}</td>     
+                        <td>{{ $p->alamat }}</td>
+                        <td>{{ $p->email }}</td>
+                        <td>{{ $p->telepon }}</td>
+                        <td>{{ $p->industri }}</td>
+                    </tr>
+                    @endforeach
+                @endif
             </tbody>
-        </table>
-    @else
-        <p>Tidak ada data perusahaan yang tersedia saat ini.</p>
-    @endif
+
 </div>
 
 @if(session('success'))

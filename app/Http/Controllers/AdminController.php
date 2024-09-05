@@ -67,8 +67,7 @@ class AdminController extends Controller
         // Periksa apakah pengguna berhasil dibuat
         if ($user) {
             \Log::info('Pengguna baru berhasil dibuat dengan status menunggu: ' . $user->id);
-            Auth::login($user);
-            return redirect()->route('daftar.survey');
+            return redirect()->route('login')->with('success', 'Pendaftaran berhasil. Silakan login.');
         } else {
             \Log::error('Gagal membuat pengguna baru');
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
@@ -78,7 +77,7 @@ class AdminController extends Controller
     public function approve(User $user)
     {
         $user->status = 'disetujui';
-        $user->role = 'user';
+        $user->role = 'perusahaan ';
         $user->save();
 
         // Tandai notifikasi sebagai sudah dibaca

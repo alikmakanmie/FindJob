@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::updateOrCreate(
+        $admin = User::updateOrCreate(
             ['email' => 'admin@example.com'],
             [
                 'name' => 'Admin',
@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        User::updateOrCreate(
+        $pengguna = User::updateOrCreate(
             ['email' => 'pengguna@example.com'],
             [
                 'name' => 'Pengguna Biasa',
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        User::updateOrCreate(
+        $perusahaan = User::updateOrCreate(
             ['email' => 'perusahaan@example.com'],
             [
                 'name' => 'Perusahaan',
@@ -39,7 +39,9 @@ class DatabaseSeeder extends Seeder
                 'role' => 'perusahaan',
             ]
         );
+
         \App\Models\Perusahaan::create([
+            'user_id' => $perusahaan->id,
             'nama' => 'PT Maju Bersama',
             'alamat' => 'Jl. Raya Utama No. 123, Jakarta Pusat',
             'telepon' => '021-5551234',
@@ -55,6 +57,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Perusahaan::create([
+            'user_id' => $perusahaan->id,
             'nama' => 'CV Karya Mandiri',
             'alamat' => 'Jl. Pahlawan No. 45, Surabaya',
             'telepon' => '031-7778888',
@@ -70,6 +73,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Perusahaan::create([
+            'user_id' => $perusahaan->id,
             'nama' => 'PT Sejahtera Abadi',
             'alamat' => 'Jl. Diponegoro No. 78, Bandung',
             'telepon' => '022-6669999',

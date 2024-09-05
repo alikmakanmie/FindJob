@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Perusahaan;
 use App\Notifications\NewCompanyRegistration;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PerusahaanController extends Controller
 {
@@ -14,12 +15,20 @@ class PerusahaanController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $perusahaan = Perusahaan::latest()->paginate(12);
-        return view('admin.store', compact('perusahaan'));
+        $userid = Perusahaan::where('user_id', $user->id)->get();
+        
+        if ($user->role === 'admin') {
+            $allPerusahaan = Perusahaan::all();
+            return view('admin.store', compact('perusahaan', 'userid', 'allPerusahaan'));
+        }
+        
+        return view('admin.store', compact('perusahaan', 'userid'));
     }
 
     /**
-     * Menampilkan formulir untuk membuat perusahaan baru.
+ * Menampilkan formulir untuk membuat perusahaan baru.
      */
     public function create()
     {
@@ -31,51 +40,53 @@ class PerusahaanController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'telepon' => 'required|string|max:15',
-            'email' => 'required|email|unique:perusahaan,email',
-            'deskripsi' => 'required|string',
-            'deskripsi1' => 'nullable|string',
-            'deskripsi2' => 'nullable|string', 
-            'deskripsi3' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'foto2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'pesan' => 'required|string'
+
+        try {
+            $foto = null;
+            $foto1 = null;
+            $foto2 = null;
+
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
+                $name = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('images/perusahaan'), $name);
+                $foto = 'images/perusahaan/' . $name;
+            }
+
+            if ($request->hasFile('foto1')) {
+                $file1 = $request->file('foto1');
+                $name1 = time() . '_' . $file1->getClientOriginalName();
+                $file1->move(public_path('images/perusahaan'), $name1);
+                $foto1 = 'images/perusahaan/' . $name1;
+            }
+
+            if ($request->hasFile('foto2')) {
+                $file2 = $request->file('foto2');
+                $name2 = time() . '_' . $file2->getClientOriginalName();
+                $file2->move(public_path('images/perusahaan'), $name2);
+                $foto2 = 'images/perusahaan/' . $name2;
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengunggah file: ' . $e->getMessage());
+        }
+
+        $perusahaan = new Perusahaan([
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'telepon' => $request->telepon,
+            'email' => $request->email,
+            'deskripsi' => $request->deskripsi,
+            'deskripsi1' => $request->deskripsi1,
+            'deskripsi2' => $request->deskripsi2,
+            'deskripsi3' => $request->deskripsi3,  
+            'foto' => $foto,
+            'foto1' => $foto1,
+            'foto2' => $foto2,
         ]);
 
-        $data = $request->all();
-
-        // Proses upload foto
-        $fotoFields = ['foto', 'foto1', 'foto2'];
-        foreach ($fotoFields as $field) {
-            if ($request->hasFile($field)) {
-                $foto = $request->file($field);
-                $fotoName = time() . '_' . $foto->getClientOriginalName();
-                $foto->storeAs('public/images', $fotoName);
-                $data[$field] = 'storage/images/' . $fotoName;
-            }
-        }
-
-        // Simpan data perusahaan
-        $perusahaan = Perusahaan::create($data);
-
-        // Update user menjadi perusahaan
-        $user = auth()->user();
-        $user->role = 'perusahaan';
-        $user->perusahaan_id = $perusahaan->id;
-        $user->save();
-
-        // Kirim notifikasi ke admin
-        $admin = User::where('role', 'admin')->first();
-        if ($admin) {
-            $admin->notify(new NewCompanyRegistration($perusahaan));
-        }
-
-        return redirect()->route('home')
-            ->with('success', 'Pendaftaran perusahaan berha sil. Mohon tunggu persetujuan dari admin.');
+        $perusahaan->save();
+        $user = Auth::user();
+        return redirect()->route('perusahaan.index')->with('success', 'Perusahaan berhasil ditambahkan.');
     }
 
     /**
@@ -148,44 +159,25 @@ class PerusahaanController extends Controller
     public function destroy(Perusahaan $perusahaan)
     {
         $perusahaan->delete();
-        // Hapus foto dari storage jika ada
-        if ($perusahaan->foto && Storage::exists('public/images/' . basename($perusahaan->foto))) {
-            Storage::delete('' . basename($perusahaan->foto));
-        }
+        // // Hapus foto dari storage jika ada
+        // if ($perusahaan->foto && Storage::exists('images/perusahaan' . basename($perusahaan->foto))) {
+        //     Storage::delete('' . basename($perusahaan->foto));
+        // }
         
-        // Hapus foto1 dari storage jika ada
-        if ($perusahaan->foto1 && Storage::exists('public/images/' . basename($perusahaan->foto1))) {
-            Storage::delete('' . basename($perusahaan->foto1));
-        }
+        // // Hapus foto1 dari storage jika ada
+        // if ($perusahaan->foto1 && Storage::exists('images/perusahaan' . basename($perusahaan->foto1))) {
+        //     Storage::delete('' . basename($perusahaan->foto1));
+        // }
         
-        // Hapus foto2 dari storage jika ada  
-        if ($perusahaan->foto2 && Storage::exists('public/images/' . basename($perusahaan->foto2))) {
-            Storage::delete('' . basename($perusahaan->foto2));
-        }
+        // // Hapus foto2 dari storage jika ada  
+        // if ($perusahaan->foto2 && Storage::exists('images/perusahaan' . basename($perusahaan->foto2))) {
+        //     Storage::delete('' . basename($perusahaan->foto2));
+        // }
         return redirect()->route('perusahaan.index')
             ->with('success', 'Perusahaan berhasil dihapus.');
     }
 
-    public function daftar(Request $request)
-    {
-        // Validasi dan simpan data perusahaan
-        $company = Perusahaan::create($request->all());
-
-        // Kirim notifikasi ke admin
-        $admin = User::where('role', 'admin')->first();
-        if ($admin) {
-            $admin->notifications()->create([
-                'type' => NewCompanyRegistration::class,
-                'data' => [
-                    'company_id' => $company->id,
-                    'company_name' => $company->name,
-                ],
-            ]);
-        }
-
-        return redirect()->back()->with('success', 'Pendaftaran berhasil');
-    }
-
+   
     public function detail($id)
     {
         $perusahaan = Perusahaan::findOrFail($id);

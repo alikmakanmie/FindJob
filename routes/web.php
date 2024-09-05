@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan.index');
     Route::get('/perusahaan/create', [PerusahaanController::class, 'create'])->name('perusahaan.create');
-    Route::post('/perusahaan', [PerusahaanController::class, 'store'])->name('perusahaan.store');
+    Route::post('/perusahaan/store', [PerusahaanController::class, 'store'])->name('perusahaan.store');
     Route::get('/perusahaan/{perusahaan}', [PerusahaanController::class, 'show'])->name('perusahaan.show');
     Route::get('/perusahaan/{perusahaan}/edit', [PerusahaanController::class, 'edit'])->name('perusahaan.edit');
     Route::put('/perusahaan/{perusahaan}', [PerusahaanController::class, 'update'])->name('perusahaan.update');
