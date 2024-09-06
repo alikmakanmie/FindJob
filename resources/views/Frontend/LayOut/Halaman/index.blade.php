@@ -143,7 +143,7 @@
     <div class="container">
       <div class="row">
         @if(isset($perusahaan) && count($perusahaan) > 0)
-          @foreach($perusahaan as $p)
+          @foreach($perusahaan->take(3) as $p)
             <div class="col-md-4 mb-4">
               <div class="card h-100 shadow">
                 <div class="card-img-top" style="height: 200px; overflow: hidden;">
@@ -177,6 +177,7 @@
         </div>
     </div>
     </div>
+  </section>
   </section>
 
 <!-- ... kode lainnya ... -->
