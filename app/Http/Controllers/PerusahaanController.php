@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Perusahaan;
 use App\Notifications\NewCompanyRegistration;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
 class PerusahaanController extends Controller
@@ -82,8 +83,9 @@ class PerusahaanController extends Controller
             'foto' => $foto,
             'foto1' => $foto1,
             'foto2' => $foto2,
+            'kategori_id' =>  $request->kategori_id,
         ]);
-
+        
         $perusahaan->save();
         $user = Auth::user();
         return redirect()->route('perusahaan.index')->with('success', 'Perusahaan berhasil ditambahkan.');

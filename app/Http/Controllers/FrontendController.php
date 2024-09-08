@@ -61,4 +61,9 @@ class FrontendController extends Controller
         return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus komentar ini.');
     }
 
+    public  function test()
+    {
+        return view('user.userProfile');
+    }
+
 }

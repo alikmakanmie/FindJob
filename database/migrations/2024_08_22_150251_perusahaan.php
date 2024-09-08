@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('foto');
             $table->text('foto1')->nullable();
             $table->text('foto2')->nullable();
+            $table->string('kategori_id')->nullable();
             $table->timestamps();
         });
     }

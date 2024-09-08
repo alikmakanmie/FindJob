@@ -5,7 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Input Data Perusahaan</div>
+                <div class="card-header d-flex justify-content-between">
+                    <a href="{{ route('perusahaan.create') }}">Input Data Perusahaan</a>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('perusahaan.store') }}" enctype="multipart/form-data">
@@ -21,7 +23,7 @@
                         <div class="row mb-3">
                             <label for="alamat" class="col-md-4 col-form-label text-md-end">Alamat</label>
                             <div class="col-md-6">
-                                <input id="nama" type=alamat" class="form-control" name="alamat" required autofocus>
+                                <input id="nama" type="alamat" class="form-control" name="alamat" required autofocus>
                             </div>
                         </div>
 
@@ -85,6 +87,18 @@
                             <label for="foto2" class="col-md-4 col-form-label text-md-end">Foto Tambahan 2</label>
                             <div class="col-md-6">
                                 <input id="foto2" type="file" class="form-control" name="foto2">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="kategori_id" class="col-md-4 col-form-label text-md-end">Kategori <span class="text-danger">*</span></label>
+                            <div class="col-md-6">
+                                <select class="form-control" id="kategori_id" name="kategori_id">
+                                    <option value="">Silakan pilih</option>                        
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                </select>
                             </div>
                         </div>
 

@@ -87,5 +87,20 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+    \App\Models\Category::create([
+        'id' => 1,
+        'name' => 'Teknologi'
+    ]);
+
+    \App\Models\Category::create([
+        'id' => 2,
+        'name' => 'Manufaktur'
+    ]);
+
+    \App\Models\Category::create([
+        'id' => 3,
+        'name' => 'Properti'
+    ]);
     }
 }

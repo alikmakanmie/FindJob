@@ -11,6 +11,7 @@ use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\KebijakanDanPrivasiController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoryController;
 
 // Crud dasar
 Route::middleware(['auth'])->group(function () {
@@ -50,6 +51,7 @@ Route::controller(FrontendController::class)->group(function () {
     Route::get('/userprofile', 'index')->name('userprofile');
     Route::post('/komentar', 'storeComment')->name('komentar.store');
     Route::delete('/komentar/{id}', 'deleteComment')->name('komentar.destroy');
+    Route::get('/test',  'test')->name('test');
 });
 
 // Rute untuk notifikasi
@@ -57,6 +59,13 @@ Route::controller(NotificationController::class)->group(function () {
     Route::get('/notifications', 'index')->name('notifications.index');
     Route::get('/notifications/{id}', 'show')->name('notifications.show');
     Route::post('/notifications/{id}/mark-as-read', 'markAsRead')->name('notifications.markAsRead');
+});
+
+// Rute untuk kategori
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('/categories', 'index')->name('categories.index');
+    Route::get('/categories/create', 'create')->name('categories.create');
+    Route::post('/categories', 'store')->name('categories.store');
 });
 
 
@@ -79,4 +88,3 @@ Route::get('/daftar/perusahaan', [AdminController::class, 'daftarPerusahaan'])->
 Route::post('/daftar/permintaan', [AdminController::class, 'storePermintaan'])->name('admin.storePermintaan');
 Route::get('/daftar/survey', [AdminController::class, 'survey'])->name('daftar.survey');
 Route::post('/daftar/survey', [AdminController::class, 'storeSurvey'])->name('daftar.storeSurvey');
-// Route::post('/perusahaan/daftar', [PerusahaanController::class, 'daftar'])->name('perusahaan.daftar');
