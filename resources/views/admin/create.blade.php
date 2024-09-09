@@ -95,10 +95,20 @@
                             <div class="col-md-6">
                                 <select class="form-control" id="kategori_id" name="kategori_id">
                                     <option value="">Silakan pilih</option>                        
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
+                                     
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                    
                                 </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 offset-md-4">
+                                <a href="{{ route('categories.create') }}" class="btn btn-secondary">
+                                    Tambah Kategori Baru
+                                </a>
                             </div>
                         </div>
 

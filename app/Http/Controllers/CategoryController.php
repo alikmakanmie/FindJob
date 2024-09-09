@@ -12,23 +12,25 @@ class CategoryController extends Controller
     {
         $categories = categories::all();
         return view('admin.create', compact('categories'));
-        
     }
 
     public function create()
     {
-        $categories = categories::all();
-        return view('perusahaan.createcategories', compact('categories'));
+        return view('perusahaan.createcategories');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'nama_kategori' => 'required|string|max:255|unique:categories,name',
+        ]);
+        
+        $category = new categories([
+            'name' => $request->nama_kategori,
         ]);
 
-        categories::create($request->all());
-
-        return redirect()->route('admin.create')->with('success', 'Kategori berhasil dibuat.');
+        $category->save();
+        
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 }

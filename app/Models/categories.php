@@ -10,8 +10,8 @@ class categories extends Model
 {
     protected $fillable = ['name'];
 
-    public function posts(): HasMany
+    public function perusahaan(): HasMany
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(perusahaan::class);
     }
 }

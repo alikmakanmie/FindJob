@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Perusahaan;
 use App\Notifications\NewCompanyRegistration;
 use App\Models\User;
-use App\Models\Category;
+use App\Models\categories;
 use Illuminate\Support\Facades\Auth;
 
 class PerusahaanController extends Controller
@@ -33,7 +33,8 @@ class PerusahaanController extends Controller
      */
     public function create()
     {
-        return view('admin.create');
+        $categories = categories::all();
+        return view('admin.create', compact('categories'));
     }
 
     /**
