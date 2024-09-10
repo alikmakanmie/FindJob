@@ -90,20 +90,16 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="kategori_id" class="col-md-4 col-form-label text-md-end">Kategori <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
-                                <select class="form-control" id="kategori_id" name="kategori_id">
-                                    <option value="">Silakan pilih</option>                        
-                                     
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
-                                    
-                                </select>
-                            </div>
-                        </div>
-
+                    <div class="form-group row">
+                        <label for="val-skill" class="col-lg-4 col-form-label">Kategori <span class="text-danger">:</span></label>
+                       <div class="col-lg-6">
+                        <select class="form-control" name="kategori_id" id="val-skill">
+                            @foreach ($categories as $kategori)    
+                            <option value="{{ $kategori->id}}">{{$kategori->name}}</option>
+                            @endforeach
+                        </select>
+                       </div>
+                    </div>
                         <div class="row mb-3">
                             <div class="col-md-6 offset-md-4">
                                 <a href="{{ route('categories.create') }}" class="btn btn-secondary">

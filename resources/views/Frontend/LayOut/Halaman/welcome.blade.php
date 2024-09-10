@@ -62,6 +62,16 @@
           <li class="nav-item active">
             <a class="nav-link" href="{{ route('index') }}">Home <span class="sr-only">(current)</span></a>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="kategoriDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kategori
+            </a>
+            <div class="dropdown-menu" aria-labelledby="kategoriDropdown">
+              @foreach(\App\Models\categories::all() as $kategori)
+                <a class="dropdown-item" href="{{ route('perusahaankategori', $kategori->id) }}">{{ $kategori->name }}</a>
+              @endforeach
+            </div>
+          </li>
           @guest
             <li class="nav-item">
               <a class="nav-link" href="{{ route('login') }}"> <i class="fa fa-user" aria-hidden="true"></i> Login</a>

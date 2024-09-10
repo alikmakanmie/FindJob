@@ -48,6 +48,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::controller(FrontendController::class)->group(function () {
     Route::get('/tampilkan-perusahaan/{id}', 'tampilkanperusahaan')->name('tampilkanperusahaan');
     Route::get('/tampilkan-semua', 'perusahaan')->name('tampilkansemua');
+    Route::get('/perusahaan/kategori/{id}', 'perusahaankategori')->name('perusahaankategori');
     Route::get('/userprofile', 'index')->name('userprofile');
     Route::post('/komentar', 'storeComment')->name('komentar.store');
     Route::delete('/komentar/{id}', 'deleteComment')->name('komentar.destroy');

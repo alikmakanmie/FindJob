@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Perusahaan;
 use App\Models\Comment;
+use App\Models\categories;
 
 
 class FrontendController extends Controller
@@ -66,4 +67,10 @@ class FrontendController extends Controller
         return view('user.userProfile');
     }
 
+    public function perusahaankategori($id)
+    {
+    $perusahaan = Perusahaan::where('kategori_id', $id)->paginate(10);
+    $kategori = categories::findOrFail($id);
+    return view('perusahaan.by_category', compact('perusahaan', 'kategori'));
+    }
 }

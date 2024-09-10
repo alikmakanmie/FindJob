@@ -73,6 +73,7 @@ class PerusahaanController extends Controller
         }
 
         $perusahaan = new Perusahaan([
+            'user_id' => Auth::id(),
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'telepon' => $request->telepon,

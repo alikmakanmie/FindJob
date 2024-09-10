@@ -88,17 +88,17 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-    \App\Models\Category::create([
+    \App\Models\categories::create([
         'id' => 1,
         'name' => 'Teknologi'
     ]);
 
-    \App\Models\Category::create([
+    \App\Models\categories::create([
         'id' => 2,
         'name' => 'Manufaktur'
     ]);
 
-    \App\Models\Category::create([
+    \App\Models\categories::create([
         'id' => 3,
         'name' => 'Properti'
     ]);
