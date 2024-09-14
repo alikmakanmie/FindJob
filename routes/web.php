@@ -12,6 +12,7 @@ use App\Http\Controllers\KebijakanDanPrivasiController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Auth\LoginController;
 
 // Crud dasar
 Route::middleware(['auth'])->group(function () {
@@ -83,9 +84,13 @@ Route::middleware(['auth', 'admin'])->controller(AdminController::class)->group(
 
 // Rute untuk permintaan upgrade role
 Route::post('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
+Route::post('/user/update-foto', [UserController::class, 'updateFoto'])->name('user.updateFoto');
 Route::get('/admin/akun', [AdminController::class, 'index'])->name('admin.akun');
 Route::get('/kebijakandanprivasi', [KebijakanDanPrivasiController::class, 'index'])->name('kebijakan.privasi');
 Route::get('/daftar/perusahaan', [AdminController::class, 'daftarPerusahaan'])->name('daftar.perusahaan');
 Route::post('/daftar/permintaan', [AdminController::class, 'storePermintaan'])->name('admin.storePermintaan');
 Route::get('/daftar/survey', [AdminController::class, 'survey'])->name('daftar.survey');
 Route::post('/daftar/survey', [AdminController::class, 'storeSurvey'])->name('daftar.storeSurvey');
+
+// Rute untuk logout
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

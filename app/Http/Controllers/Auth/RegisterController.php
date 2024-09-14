@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -16,7 +18,7 @@ class RegisterController extends Controller
     |--------------------------------------------------------------------------
     |
     | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
+    |  and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
     */
@@ -68,6 +70,23 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => $data['role'] ?? 'user',
+            'status_data' => 'tidak_lengkap',
         ]);
+    }
+
+    /**
+     * Handle a registration request after it has been validated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array  $data
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function registered(Request $request, $user)
+    {
+        if ($user->status_data === 'tidak_lengkap') {
+            return redirect()->route('userprofile')->with('message', 'Registrasi berhasil. Silakan lengkapi data Anda.');
+        }
+
+        return redirect($this->redirectPath());
     }
 }

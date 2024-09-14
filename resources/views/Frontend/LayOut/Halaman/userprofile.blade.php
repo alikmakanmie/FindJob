@@ -10,23 +10,39 @@
 
                 <div class="card-body">
                     <div class="row mb-3">
-                        <label class="col-md-4 col-form-label text-md-end">Nama</label>
-                        <div class="col-md-6">
-                            <p class="form-control-static">{{ optional(Auth::user()->pengguna)->nama_lengkap ?? '' }}</p>
+                        <div class="col-md-4 text-md-end">
+                            @if(optional(Auth::user()->pengguna)->foto && Auth::user()->id == optional(Auth::user()->pengguna)->user_id)
+                                <img src="{{ asset(Auth::user()->pengguna->foto) }}" alt="Foto Profil" class="img-thumbnail" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover;">
+                            @else
+                                <img src="{{ asset('images/user/download.png') }}" alt="Foto Profil" class="img-thumbnail" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover;">
+                            @endif
+                            <form action="{{ route('user.updateFoto') }}" method="POST" enctype="multipart/form-data" class="mt-3">
+                                @csrf
+                                <input type="file" name="foto" class="form-control-file">
+                                <button type="submit" class="btn btn-primary mt-2">Upload Foto</button>
+                            </form>
                         </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-md-4 col-form-label text-md-end">Email</label>
                         <div class="col-md-6">
-                            <p class="form-control-static">{{ Auth::user()->email }}</p>
-                        </div>
-                    </div>
+                            <div class="row mb-3">
+                                <label class="col-md-4 col-form-label text-md-end">Nama</label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{ optional(Auth::user()->pengguna)->nama_lengkap ?? '' }}</p>
+                                </div>
+                            </div>
 
-                    <div class="row mb-3">
-                        <label class="col-md-4 col-form-label text-md-end">Bergabung Sejak</label>
-                        <div class="col-md-6">
-                            <p class="form-control-static">{{ Auth::user()->created_at->format('d M Y') }}</p>
+                            <div class="row mb-3">
+                                <label class="col-md-4 col-form-label text-md-end">Email</label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{ Auth::user()->email }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-md-4 col-form-label text-md-end">Bergabung Sejak</label>
+                                <div class="col-md-8">
+                                    <p class="form-control-static">{{ Auth::user()->created_at->format('d M Y') }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -88,13 +104,6 @@
                             <label class="col-md-4 col-form-label text-md-end">Tanggal Lahir <span class="text-danger">*</span></label>
                             <div class="col-md-6">
                                 <input type="date" class="form-control" name="tanggal_lahir" value="{{ old('tanggal_lahir', optional(Auth::user()->pengguna)->tanggal_lahir ?? '') }}" required>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label class="col-md-4 col-form-label text-md-end">Foto <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
-                                <input type="file" class="form-control" name="foto" accept="image/*" required>
                             </div>
                         </div>
 

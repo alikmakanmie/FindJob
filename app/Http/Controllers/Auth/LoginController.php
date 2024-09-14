@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -33,6 +34,10 @@ class LoginController extends Controller
             return route('daftar.survey');
         }
 
+        if (auth()->user()->status_data === 'tidak_lengkap') {
+            return route('userprofile');
+        }
+
         return '/';
     }
 
@@ -48,4 +53,15 @@ class LoginController extends Controller
     }
 
     // Metode authenticated telah dihapus
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 }
