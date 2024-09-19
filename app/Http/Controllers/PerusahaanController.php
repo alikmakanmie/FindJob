@@ -7,7 +7,10 @@ use App\Models\Perusahaan;
 use App\Notifications\NewCompanyRegistration;
 use App\Models\User;
 use App\Models\categories;
+use App\Models\Question;
+use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PerusahaanController extends Controller
 {
@@ -90,7 +93,7 @@ class PerusahaanController extends Controller
         
         $perusahaan->save();
         $user = Auth::user();
-        return redirect()->route('perusahaan.index')->with('success', 'Perusahaan berhasil ditambahkan.');
+        return redirect()->route('perusahaan.createQuestion', $perusahaan)->with('success', 'Perusahaan berhasil ditambahkan.');
     }
 
     /**
@@ -187,5 +190,72 @@ class PerusahaanController extends Controller
         $perusahaan = Perusahaan::findOrFail($id);
         return view('perusahaan.detail', compact('perusahaan'));
     }
-    
+
+    public function createQuestion(Perusahaan $perusahaan)
+    {
+        $this->authorize('createQuestion', $perusahaan);
+        return view('perusahaan.createQuestion', compact('perusahaan'));
+    }
+
+    public function storeQuestion(Request $request, Perusahaan $perusahaan)
+    {
+        \Log::info('Data yang diterima:', $request->all());
+        
+        $this->authorize('createQuestion', $perusahaan);
+
+        $validatedData = $request->validate([
+            'pertanyaan' => 'required|array',
+            'pertanyaan.*' => 'required|string|max:255',
+        ]);
+
+        try {
+            foreach ($validatedData['pertanyaan'] as $pertanyaan) {
+                Question::create([
+                    'perusahaan_id' => $perusahaan->id,
+                    'pertanyaan' => $pertanyaan,
+                ]);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Kesalahan saat menyimpan pertanyaan: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan pertanyaan.');
+        }
+
+        return redirect()->route('perusahaan.show', $perusahaan)->with('success', 'Pertanyaan berhasil ditambahkan.');
+    }
+
+   
+    public function showQuestion($id)
+    {
+        $question = Question::findOrFail($id);
+        $perusahaan_id = $question->perusahaan_id;
+        return view('perusahaan.showQuestion', compact('question', 'perusahaan_id'));
+    }
+
+    public function storeAnswer(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'jawaban' => 'required|string|max:255',
+        ]);
+
+        try {
+            $question = Question::findOrFail($id);
+            
+            Log::info('Menyimpan jawaban untuk pertanyaan ID: ' . $id);
+            Log::info('Data yang akan disimpan: ', [
+                'question_id' => $question->id,
+                'user_id' => auth()->id(),
+                'jawaban' => $validatedData['jawaban']
+            ]);
+
+            // Tidak menambahkan data ke database
+            Log::info('Simulasi penyimpanan jawaban tanpa menambahkan data ke database.');
+
+            return redirect()->route('index')->with('success', 'Jawaban berhasil disimpan (simulasi).');
+        } catch (\Exception $e) {
+            Log::error('Kesalahan saat menyimpan jawaban: ' . $e->getMessage());
+            Log::error($e->getTraceAsString());
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan jawaban: ' . $e->getMessage());
+        }
+    }
+
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AnswerController;
 
 // Crud dasar
 Route::middleware(['auth'])->group(function () {
@@ -32,6 +33,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/perusahaan/{perusahaan}/edit', [PerusahaanController::class, 'edit'])->name('perusahaan.edit');
     Route::put('/perusahaan/{perusahaan}', [PerusahaanController::class, 'update'])->name('perusahaan.update');
     Route::delete('/perusahaan/{perusahaan}', [PerusahaanController::class, 'destroy'])->name('perusahaan.destroy');
+    Route::get('/perusahaan/{perusahaan}/createQuestion', [PerusahaanController::class, 'createQuestion'])->name('perusahaan.createQuestion');
+    Route::post('/perusahaan/{perusahaan}/storeQuestion', [PerusahaanController::class, 'storeQuestion'])->name('perusahaan.storeQuestion');
+    Route::get('/perusahaan/{perusahaan}/editQuestion', [PerusahaanController::class, 'editQuestion'])->name('perusahaan.editQuestion');
+    Route::put('/perusahaan/{perusahaan}/updateQuestion', [PerusahaanController::class, 'updateQuestion'])->name('perusahaan.updateQuestion');
+    Route::get('/perusahaan/show-question/{id}', [PerusahaanController::class, 'showQuestion'])->name('perusahaan.showQuestion');
+    Route::post('/perusahaan/{perusahaan}/storeAnswer', [PerusahaanController::class, 'storeAnswer'])->name('perusahaan.storeAnswer');
 });
 
 // login
@@ -91,6 +98,8 @@ Route::get('/daftar/perusahaan', [AdminController::class, 'daftarPerusahaan'])->
 Route::post('/daftar/permintaan', [AdminController::class, 'storePermintaan'])->name('admin.storePermintaan');
 Route::get('/daftar/survey', [AdminController::class, 'survey'])->name('daftar.survey');
 Route::post('/daftar/survey', [AdminController::class, 'storeSurvey'])->name('daftar.storeSurvey');
+// Route::get('/answer/show-question/{id}', [AnswerController::class, 'showQuestion'])->name('answer.showQuestion');
+// Route::post('/perusahaan/{id}/storeAnswer', [AnswerController::class, 'storeAnswer'])->name('perusahaan.storeAnswer');
 
 // Rute untuk logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

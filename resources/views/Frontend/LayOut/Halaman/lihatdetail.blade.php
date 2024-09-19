@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-md-8">
                                 <h3 class="text-primary">{{ $perusahaan->nama }}</h3>
-                                <p><i class="fas fa-map-marker-alt mr-2"></i> {{ $perusahaan->alamat }}</p>
+                                    <p><i class="fas fa-map-marker-alt mr-2"></i> {{ $perusahaan->alamat }}</p>
                                 <p><i class="fas fa-phone mr-2"></i> {{ $perusahaan->telepon }}</p>
                                 <p><i class="fas fa-envelope mr-2"></i> {{ $perusahaan->email }}</p>
                             </div>
@@ -107,7 +107,7 @@
                         <div class="col-md-6">
                             @auth
                                 @if(Auth::user()->role == 'user')
-                                    <a href="{{ route('daftar.perusahaan', ['id' => $perusahaan->id]) }}" class="btn btn-success btn-lg mb-3">
+                                    <a href="{{ route('perusahaan.showQuestion', ['id' => $questions->first()->perusahaan_id]) }}" class="btn btn-success btn-lg mb-3">
                                         <i class="fas fa-user-plus mr-2"></i> Daftar ke Perusahaan Ini
                                     </a>
                                 @endif

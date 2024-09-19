@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Perusahaan;
 use App\Models\Comment;
 use App\Models\categories;
+use App\Models\Question;
+
 
 
 class FrontendController extends Controller
@@ -24,13 +26,14 @@ class FrontendController extends Controller
     
     public function tampilkanperusahaan($id)
     {
+        $questions = Question::where('perusahaan_id', $id)->get();
         $perusahaan = Perusahaan::findOrFail($id);
         $comments = Comment::where('commentable_id', $id)
                            ->where('commentable_type', Perusahaan::class)
                            ->with('user')
                            ->latest()
                            ->get();
-        return view('Frontend.LayOut.Halaman.lihatdetail', compact('perusahaan', 'comments'));
+        return view('Frontend.LayOut.Halaman.lihatdetail', compact('perusahaan', 'comments', 'questions'));
     }
 
     public function storeComment(Request $request)

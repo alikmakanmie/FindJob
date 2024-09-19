@@ -82,4 +82,9 @@ class User extends Authenticatable
     {
         $this->update(['role' => 'perusahaan']);
     }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
 }
