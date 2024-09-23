@@ -1,5 +1,4 @@
 @extends('Frontend.LayOut.Halaman.welcome')
-            
 
 @section('content')
 <div class="container">
@@ -15,37 +14,45 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('perusahaan.storeAnswer', $question->id) }}">
-                        @csrf
+                    @if(isset($questions) && $questions->isNotEmpty())
+                        @foreach($questions as $question)
+                        <form method="POST" action="{{ route('perusahaan.storeAnswer', $question->pertanyaan) }}">
+                            @csrf
 
-                        <div class="form-group">
-                            <label for="question">{{ __('Pertanyaan') }}</label>
-                            <input id="question" type="text" class="form-control @error('question') is-invalid @enderror" name="question" value="{{ $question->pertanyaan }}" required autocomplete="off" readonly>
+                            <div class="form-group">
+                                <label for="question">{{ __('Pertanyaan') }}</label>
+                                <input id="question" type="text" class="form-control" name="question" value="{{ $question->pertanyaan }}" readonly>
 
-                            @error('question')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                @error('question')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="answer">{{ __('Jawaban') }}</label>
+                                <textarea id="answer" class="form-control" name="answer" required></textarea>
+
+                                @error('answer')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Simpan') }}
+                                </button>
+                            </div>
+                        </form>
+                        @endforeach
+                    @else
+                        <div class="alert alert-warning" role="alert">
+                            Pertanyaan tidak ditemukan.
                         </div>
-
-                        <div class="form-group">
-                            <label for="answer">{{ __('Jawaban') }}</label>
-                            <textarea id="answer" class="form-control @error('answer') is-invalid @enderror" name="answer" required>{{ old('answer') }}</textarea>
-
-                            @error('answer')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group mb-0">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Simpan') }}
-                            </button>
-                        </div>
-                    </form>
+                    @endif
                 </div>
             </div>
         </div>

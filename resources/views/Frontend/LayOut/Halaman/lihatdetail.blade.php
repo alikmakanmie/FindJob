@@ -107,7 +107,7 @@
                         <div class="col-md-6">
                             @auth
                                 @if(Auth::user()->role == 'user')
-                                    <a href="{{ route('perusahaan.showQuestion', ['id' => $questions->first()->perusahaan_id]) }}" class="btn btn-success btn-lg mb-3">
+                                    <a href="{{ route('perusahaan.showQuestion', ['perusahaan_id' => $perusahaan->id]) }}" class="btn btn-success btn-lg mb-3">
                                         <i class="fas fa-user-plus mr-2"></i> Daftar ke Perusahaan Ini
                                     </a>
                                 @endif

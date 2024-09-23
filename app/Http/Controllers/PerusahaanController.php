@@ -224,11 +224,11 @@ class PerusahaanController extends Controller
     }
 
    
-    public function showQuestion($id)
+    public function showQuestion($perusahaan_id)
     {
-        $question = Question::findOrFail($id);
-        $perusahaan_id = $question->perusahaan_id;
-        return view('perusahaan.showQuestion', compact('question', 'perusahaan_id'));
+        $perusahaan = Perusahaan::findOrFail($perusahaan_id);
+        $questions = Question::where('perusahaan_id', $perusahaan->id)->get();
+        return view('perusahaan.showQuestion', compact('questions', 'perusahaan_id'));
     }
 
     public function storeAnswer(Request $request, $id)

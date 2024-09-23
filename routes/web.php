@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/perusahaan/{perusahaan}/storeQuestion', [PerusahaanController::class, 'storeQuestion'])->name('perusahaan.storeQuestion');
     Route::get('/perusahaan/{perusahaan}/editQuestion', [PerusahaanController::class, 'editQuestion'])->name('perusahaan.editQuestion');
     Route::put('/perusahaan/{perusahaan}/updateQuestion', [PerusahaanController::class, 'updateQuestion'])->name('perusahaan.updateQuestion');
-    Route::get('/perusahaan/show-question/{id}', [PerusahaanController::class, 'showQuestion'])->name('perusahaan.showQuestion');
+    Route::get('/perusahaan/show-question/{perusahaan_id}', [PerusahaanController::class, 'showQuestion'])->name('perusahaan.showQuestion');
     Route::post('/perusahaan/{perusahaan}/storeAnswer', [PerusahaanController::class, 'storeAnswer'])->name('perusahaan.storeAnswer');
 });
 
