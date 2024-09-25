@@ -31,29 +31,42 @@ class PenggunaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'nomor_telepon' => 'nullable|numeric',
-            'alamat' => 'nullable',
-            'tanggal_lahir' => 'nullable|date',
-            'jenis_kelamin' => 'nullable|in:laki-laki,perempuan',
+            'nama_lengkap' => 'required|string|max:255',
+            'nomor_telepon' => 'required|string|max:15',
+            'alamat' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'deskripsi' => 'nullable|string',
-            'email' => 'required|email|unique:pengguna,email',
+            'foto_ktp' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status_pekerjaan' => 'required|string|max:255',
         ]);
     
-        $data = $request->all();
+        $data = $request->except(['foto', 'foto_ktp']);
+        $data['user_id'] = auth()->id();
 
         if ($request->hasFile('foto')) {
             $foto = $request->file('foto');
-            $fotoName = time() . '_' . $foto->getClientOriginalName();
-            $foto->move(public_path('images'), $fotoName);
-            $data['foto'] = 'images/' . $fotoName;
+            $fotoName = time() . '_foto_' . $foto->getClientOriginalName();
+            $foto->storeAs('public/images/user', $fotoName);
+            $data['foto'] = 'storage/images/user/' . $fotoName;
+        }
+
+        if ($request->hasFile('foto_ktp')) {
+            $fotoKtp = $request->file('foto_ktp');
+            $fotoKtpName = time() . '_foto_ktp_' . $fotoKtp->getClientOriginalName();
+            $fotoKtp->storeAs('public/images/ktp', $fotoKtpName);
+            $data['foto_ktp'] = 'storage/images/ktp/' . $fotoKtpName;
         }
     
-        Pengguna::create($data);
-     
-        return redirect()->route('user.dashboard')
-                        ->with('success','Pengguna berhasil dibuat.');
+        try {
+            \Log::info('Data yang akan disimpan: ' . json_encode($data));
+            $pengguna = Pengguna::create($data);
+            \Log::info('Pengguna berhasil dibuat dengan ID: ' . $pengguna->id);
+            return redirect()->route('userprofile')->with('success', 'Profil berhasil dibuat.');
+        } catch (\Exception $e) {
+            \Log::error('Error saat membuat profil: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat membuat profil. Silakan coba lagi.');
+        }
     }
 
     /**

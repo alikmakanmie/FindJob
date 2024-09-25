@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
 {
@@ -83,10 +84,8 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        if ($user->status_data === 'tidak_lengkap') {
-            return redirect()->route('userprofile')->with('message', 'Registrasi berhasil. Silakan lengkapi data Anda.');
-        }
-
-        return redirect($this->redirectPath());
+        return $request->wantsJson()
+                    ? new JsonResponse([], 201)
+                    : redirect()->route('verification.notice');
     }
 }

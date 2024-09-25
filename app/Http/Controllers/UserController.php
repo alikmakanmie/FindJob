@@ -17,7 +17,7 @@ class UserController extends Controller
         return view('Frontend.LayOut.Halaman.userprofile', compact('pengguna'));
     }
 
-    public function updateProfile(Request $request)
+        public function updateProfile(Request $request)
     {
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',

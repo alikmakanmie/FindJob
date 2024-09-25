@@ -14,6 +14,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\Auth\VerificationController;
 
 // Crud dasar
 Route::middleware(['auth'])->group(function () {
@@ -111,20 +112,37 @@ Route::get('/verification-code', [VerificationController::class, 'showVerificati
 
 // Rute untuk verifikasi email
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/home'); // Ganti dengan rute yang sesuai setelah verifikasi
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-// Tambahkan juga rute untuk menampilkan halaman pemberitahuan verifikasi email
 Route::get('/email/verify', function () {
-    return view('auth.verify-email');
+    return view('auth.verification-pending');
 })->middleware('auth')->name('verification.notice');
 
-// Rute untuk mengirim ulang email verifikasi
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+    ->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Tambahkan rute baru untuk halaman sukses verifikasi
+Route::get('/email/verify/success', [VerificationController::class, 'showSuccess'])
+    ->middleware('auth')->name('verification.success');
+
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', 'Verification link sent!');
+    return back()->with('message', 'Link verifikasi telah dikirim!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/home', function () {
+    // ...
+})->middleware(['auth', 'verified']);
+
+Route::get('/profile', function () {
+    return view('Frontend.LayOut.Halaman.userprofile');
+})->middleware(['auth', 'verified'])->name('profile');
+
+Route::middleware(['auth', 'check.userprofile'])->group(function () {
+    // Semua route yang memerlukan profil lengkap
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // ... route lainnya ...
+});
+
+// // Route untuk userprofile tidak perlu menggunakan middleware check.userprofile
+// Route::get('/userprofile', [UserProfileController::class, 'index'])->name('userprofile');
+// Route::post('/userprofile/update', [UserProfileController::class, 'update'])->name('user.updateProfile');

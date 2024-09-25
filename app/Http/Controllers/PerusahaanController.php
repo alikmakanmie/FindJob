@@ -11,6 +11,8 @@ use App\Models\Question;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Mail\AnswerNotification;
+use Illuminate\Support\Facades\Mail;
 
 class PerusahaanController extends Controller
 {
@@ -231,16 +233,27 @@ class PerusahaanController extends Controller
         return view('perusahaan.showQuestion', compact('questions', 'perusahaan_id'));
     }
 
-    public function storeAnswer(Request $request, $id)
+    public function storeAnswer(Request $request, $questionId)
     {
-        $perusahaan = Perusahaan::findOrFail($id);
-        answer::create([
-            'question_id' => $id,
-            'user_id' => Auth::id(),
-            'jawaban' => $request->jawaban,
+        $request->validate([
+            'jawaban' => 'required|string',
         ]);
 
-        return redirect()->route('perusahaan.show', $perusahaan)->with('success', 'Pertanyaan berhasil ditambahkan.');
+        $question = Question::findOrFail($questionId);
+        $user = auth()->user();
+
+        // Simpan jawaban
+        $answer = new Answer([
+            'user_id' => $user->id,
+            'question_id' => $question->id,
+            'jawaban' => $request->jawaban,
+        ]);
+        $answer->save();
+
+        // Kirim email ke perusahaan
+        $perusahaan = $question->perusahaan;
+        Mail::to($perusahaan->email)->send(new AnswerNotification($user, $question, $request->jawaban));
+        return redirect()->route('perusahaan.show', $perusahaan)->with('success', 'Jawaban berhasil disimpan dan notifikasi telah dikirim ke perusahaan.');
     }
 
 }

@@ -11,18 +11,26 @@ class Pengguna extends Model
 
     protected $fillable = [
         'user_id',
-        'nama',
+        'nama_lengkap',
         'nomor_telepon',
         'alamat',
         'tanggal_lahir',
         'jenis_kelamin',
         'foto',
         'foto_ktp',
-        'email_verified_at',
+    ];
+
+    protected $casts = [
+        'tanggal_lahir' => 'date',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getAgeAttribute()
+    {
+        return $this->tanggal_lahir->age;
     }
 }

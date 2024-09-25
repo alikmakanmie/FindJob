@@ -10,6 +10,7 @@ use App\Mail\VerificationCode;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use App\Events\VerificationCodeSent;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class VerificationController extends Controller
 {
@@ -86,5 +87,20 @@ class VerificationController extends Controller
         }
 
         return response()->json(['message' => 'Kode verifikasi tidak valid.'], 422);
+    }
+
+    public function verify(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+
+        // Tambahkan logika tambahan di sini jika diperlukan
+        // Misalnya, memberikan poin atau badge kepada pengguna
+
+        return redirect()->route('verification.success');
+    }
+
+    public function showSuccess()
+    {
+        return view('auth.verification-success');
     }
 }
