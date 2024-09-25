@@ -8,7 +8,7 @@
                 <div class="card-header">Daftar</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" id="registerForm">
                         @csrf
 
                         <div class="mb-3">
@@ -66,4 +66,27 @@
 </div>
 @endsection
 
-
+@push('scripts')
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('#registerForm').submit(function(e) {
+            e.preventDefault();
+            
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Redirect ke halaman verifikasi kode
+                    window.location.href = '{{ route("verification.code") }}';
+                },
+                error: function(xhr) {
+                    // Tampilkan pesan error jika ada
+                    alert('Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
+                }
+            });
+        });
+    });
+</script>
+@endpush

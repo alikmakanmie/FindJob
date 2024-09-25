@@ -233,29 +233,14 @@ class PerusahaanController extends Controller
 
     public function storeAnswer(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'jawaban' => 'required|string|max:255',
+        $perusahaan = Perusahaan::findOrFail($id);
+        answer::create([
+            'question_id' => $id,
+            'user_id' => Auth::id(),
+            'jawaban' => $request->jawaban,
         ]);
 
-        try {
-            $question = Question::findOrFail($id);
-            
-            Log::info('Menyimpan jawaban untuk pertanyaan ID: ' . $id);
-            Log::info('Data yang akan disimpan: ', [
-                'question_id' => $question->id,
-                'user_id' => auth()->id(),
-                'jawaban' => $validatedData['jawaban']
-            ]);
-
-            // Tidak menambahkan data ke database
-            Log::info('Simulasi penyimpanan jawaban tanpa menambahkan data ke database.');
-
-            return redirect()->route('index')->with('success', 'Jawaban berhasil disimpan (simulasi).');
-        } catch (\Exception $e) {
-            Log::error('Kesalahan saat menyimpan jawaban: ' . $e->getMessage());
-            Log::error($e->getTraceAsString());
-            return back()->with('error', 'Terjadi kesalahan saat menyimpan jawaban: ' . $e->getMessage());
-        }
+        return redirect()->route('perusahaan.show', $perusahaan)->with('success', 'Pertanyaan berhasil ditambahkan.');
     }
 
 }

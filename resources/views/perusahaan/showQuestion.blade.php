@@ -15,39 +15,31 @@
                     @endif
 
                     @if(isset($questions) && $questions->isNotEmpty())
-                        @foreach($questions as $question)
-                        <form method="POST" action="{{ route('perusahaan.storeAnswer', $question->pertanyaan) }}">
+                        <form method="POST" action="{{ route('perusahaan.storeAnswer', $questions->first()->id) }}">
                             @csrf
 
-                            <div class="form-group">
-                                <label for="question">{{ __('Pertanyaan') }}</label>
-                                <input id="question" type="text" class="form-control" name="question" value="{{ $question->pertanyaan }}" readonly>
+                            @foreach($questions as $question)
+                            <div class="form-group mb-4">
+                                <label for="question_{{ $question->id }}">{{ __('Pertanyaan') }}</label>
+                                <input id="question_{{ $question->id }}" type="text" class="form-control" name="questions[{{ $question->id }}][pertanyaan]" value="{{ $question->pertanyaan }}" readonly>
 
-                                @error('question')
+                                <label for="answer_{{ $question->id }}" class="mt-2">{{ __('Jawaban') }}</label>
+                                <textarea id="answer_{{ $question->id }}" class="form-control" name="jawaban" required></textarea>
+
+                                @error('questions.' . $question->id . '.jawaban')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
+                            @endforeach
 
                             <div class="form-group">
-                                <label for="answer">{{ __('Jawaban') }}</label>
-                                <textarea id="answer" class="form-control" name="answer" required></textarea>
-
-                                @error('answer')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Simpan') }}
+                                    {{ __('Simpan Semua Jawaban') }}
                                 </button>
                             </div>
                         </form>
-                        @endforeach
                     @else
                         <div class="alert alert-warning" role="alert">
                             Pertanyaan tidak ditemukan.

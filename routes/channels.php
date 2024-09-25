@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('verification.{email}', function ($user, $email) {
+    return true; // Anda mungkin ingin menambahkan logika otorisasi di sini
+});

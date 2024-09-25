@@ -23,4 +23,11 @@ class PerusahaanPolicy
         // Contoh: semua user yang terautentikasi bisa membuat pertanyaan
         return true;
     }
+    
+    public function answerQuestion(User $user, Perusahaan $perusahaan)
+    {
+        // Logika untuk menentukan apakah user bisa menjawab pertanyaan
+        // Contoh: semua user yang terautentikasi bisa menjawab pertanyaan
+        return true;
+    }
 }

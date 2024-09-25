@@ -103,3 +103,28 @@ Route::post('/daftar/survey', [AdminController::class, 'storeSurvey'])->name('da
 
 // Rute untuk logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Rute untuk pengiriman kode verifikasi dan verifikasi kode
+Route::post('/send-verification-code', 'Auth\VerificationController@sendVerificationCode')->name('send.verification.code');
+Route::post('/verify-code', 'Auth\VerificationController@verifyCode')->name('verify.code');
+Route::get('/verification-code', [VerificationController::class, 'showVerificationForm'])->name('verification.code');
+
+// Rute untuk verifikasi email
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home'); // Ganti dengan rute yang sesuai setelah verifikasi
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Tambahkan juga rute untuk menampilkan halaman pemberitahuan verifikasi email
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+// Rute untuk mengirim ulang email verifikasi
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
