@@ -14,7 +14,7 @@
                             @if(optional(Auth::user()->pengguna)->foto && Auth::user()->id == optional(Auth::user()->pengguna)->user_id)
                                 <img src="{{ asset(Auth::user()->pengguna->foto) }}" alt="Foto Profil" class="img-thumbnail" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover;">
                             @else
-                                <img src="{{ asset('images/user') }}/download.png" alt="Foto Profil" class="img-thumbnail" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover;">
+                                <img src="{{ asset('/user') }}/download.png" alt="Foto Profil" class="img-thumbnail" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover;">
                             @endif
                             <form action="{{ route('user.updateFoto') }}" method="POST" enctype="multipart/form-data" class="mt-3">
                                 @csrf

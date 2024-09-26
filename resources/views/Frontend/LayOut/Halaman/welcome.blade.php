@@ -111,33 +111,7 @@
               </div>
             </li>
           @endauth
-          @auth
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-bell"></i>
-                <span class="badge badge-danger">{{ Auth::user()->unreadNotifications->count() }}</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown" style="max-height: 300px; overflow-y: auto;">
-                @forelse(Auth::user()->unreadNotifications->take(10) as $notification)
-                  <a class="dropdown-item font-weight-bold" href="{{ route('notifications.show', $notification->id) }}">
-                    @if(Auth::user()->role == 'admin' && isset($notification->data['type']) && $notification->data['type'] == 'NewCompanyRegistration')
-                      <span class="text-danger">Permintaan Upgrade Role:</span>
-                      {{ $notification->data['user_name'] }} ingin mengupgrade role menjadi perusahaan.
-                    @else
-                      {{ Str::limit($notification->message ?? 'Tidak ada pesan', 50) }}
-                    @endif
-                    <small class="text-muted d-block">{{ $notification->created_at->diffForHumans() }}</small>
-                  </a>
-                @empty
-                  <span class="dropdown-item">Tidak ada notifikasi baru</span>
-                @endforelse
-                @if(Auth::user()->unreadNotifications->count() > 0)
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item text-center" href="{{ route('notifications.index') }}">Lihat Semua Notifikasi</a>
-                @endif
-              </div>
-            </li>
-          @endauth
+
           <form class="form-inline">
             <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
               <i class="fa fa-search" aria-hidden="true"></i>

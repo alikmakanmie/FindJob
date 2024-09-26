@@ -18,9 +18,10 @@
                             </div>
                             <div class="col-md-8">
                                 <h3 class="text-primary">{{ $perusahaan->nama }}</h3>
-                                    <p><i class="fas fa-map-marker-alt mr-2"></i> {{ $perusahaan->alamat }}</p>
+                                <p><i class="fas fa-map-marker-alt mr-2"></i> {{ $perusahaan->alamat }}</p>
                                 <p><i class="fas fa-phone mr-2"></i> {{ $perusahaan->telepon }}</p>
                                 <p><i class="fas fa-envelope mr-2"></i> {{ $perusahaan->email }}</p>
+                                <p><i class="fas fa-building mr-2"></i> {{ $perusahaan->logo }}</p>
                             </div>
                         </div>
                         
