@@ -15,18 +15,18 @@
                     @endif
 
                     @if(isset($questions) && $questions->isNotEmpty())
-                        <form method="POST" action="{{ route('perusahaan.storeAnswer', $questions->first()->id) }}">
+                        <form method="POST" action="{{ route('perusahaan.storeAnswer') }}">
                             @csrf
 
                             @foreach($questions as $question)
                             <div class="form-group mb-4">
                                 <label for="question_{{ $question->id }}">{{ __('Pertanyaan') }}</label>
-                                <input id="question_{{ $question->id }}" type="text" class="form-control" name="questions[{{ $question->id }}][pertanyaan]" value="{{ $question->pertanyaan }}" readonly>
+                                <input id="question_{{ $question->id }}" type="text" class="form-control" value="{{ $question->pertanyaan }}" readonly>
 
                                 <label for="answer_{{ $question->id }}" class="mt-2">{{ __('Jawaban') }}</label>
-                                <textarea id="answer_{{ $question->id }}" class="form-control" name="jawaban" required></textarea>
+                                <textarea id="answer_{{ $question->id }}" class="form-control" name="jawaban[{{ $question->id }}]" required></textarea>
 
-                                @error('questions.' . $question->id . '.jawaban')
+                                @error('jawaban.' . $question->id)
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

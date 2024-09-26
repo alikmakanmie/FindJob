@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Mail\AnswerNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class PerusahaanController extends Controller
 {
@@ -233,27 +234,41 @@ class PerusahaanController extends Controller
         return view('perusahaan.showQuestion', compact('questions', 'perusahaan_id'));
     }
 
-    public function storeAnswer(Request $request, $questionId)
+    public function storeAnswer(Request $request)
     {
         $request->validate([
-            'jawaban' => 'required|string',
+            'jawaban.*' => 'required|string',
         ]);
 
-        $question = Question::findOrFail($questionId);
         $user = auth()->user();
+        $answers = $request->input('jawaban');
 
-        // Simpan jawaban
-        $answer = new Answer([
-            'user_id' => $user->id,
-            'question_id' => $question->id,
-            'jawaban' => $request->jawaban,
-        ]);
-        $answer->save();
+        DB::beginTransaction();
 
-        // Kirim email ke perusahaan
-        $perusahaan = $question->perusahaan;
-        Mail::to($perusahaan->email)->send(new AnswerNotification($user, $question, $request->jawaban));
-        return redirect()->route('perusahaan.show', $perusahaan)->with('success', 'Jawaban berhasil disimpan dan notifikasi telah dikirim ke perusahaan.');
+        try {
+            foreach ($answers as $questionId => $jawaban) {
+                $question = Question::findOrFail($questionId);
+
+                $answer = new Answer([
+                    'user_id' => $user->id,
+                    'question_id' => $question->id,
+                    'jawaban' => $jawaban,
+                ]);
+                $answer->save();
+
+                // Kirim email ke perusahaan
+                $perusahaan = $question->perusahaan;
+                Mail::to($perusahaan->email)->queue(new AnswerNotification($user, $question, $jawaban));
+            }
+
+            DB::commit();
+
+            return redirect()->route('index')->with('success', 'Semua jawaban berhasil disimpan dan notifikasi telah dikirim ke perusahaan.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            \Log::error('Error saat menyimpan jawaban: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan jawaban. Silakan coba lagi.');
+        }
     }
 
 }
