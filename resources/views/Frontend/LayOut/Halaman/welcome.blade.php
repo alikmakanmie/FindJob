@@ -15,7 +15,7 @@
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <link rel="shortcut icon" href="{{ asset('/assets/images/favicon.png') }}" type="">
 
-  <title> Finexo </title>
+  <title> CareerSky </title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="{{ asset('/assets/css/bootstrap.css') }}" />
@@ -34,6 +34,18 @@
   <!-- responsive style -->
   <link href="{{ asset('/assets/css/responsive.css') }}" rel="stylesheet" />
 
+  <style>
+html {
+  scroll-behavior: smooth;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -51,7 +63,7 @@
     <nav class="navbar navbar-expand-lg custom_nav-container ">
       <a class="navbar-brand" href="{{ route('index') }}">
         <span>
-          FindJob
+        CareerSky
         </span>
       </a>
 
@@ -142,7 +154,74 @@
   <!-- Google Map -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
   </script>
-  <!-- End Google Map -->
+  <!-- End Google Map -->\
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Fungsi untuk scroll halus
+      function smoothScroll(target, duration) {
+        var targetElement = document.querySelector(target);
+        var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+        var startPosition = window.pageYOffset;
+        var distance = targetPosition - startPosition;
+        var startTime = null;
+
+        function animation(currentTime) {
+          if (startTime === null) startTime = currentTime;
+          var timeElapsed = currentTime - startTime;
+          var run = ease(timeElapsed, startPosition, distance, duration);
+          window.scrollTo(0, run);
+          if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function ease(t, b, c, d) {
+          t /= d / 2;
+          if (t < 1) return c / 2 * t * t + b;
+          t--;
+          return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+
+        requestAnimationFrame(animation);
+      }
+
+      // Fungsi untuk highlight section
+      function highlightSection(targetElement) {
+        targetElement.style.transition = 'background-color 0.3s ease-in-out';
+        targetElement.style.backgroundColor = '#ffff99'; // Warna highlight
+        setTimeout(() => {
+          targetElement.style.backgroundColor = ''; // Kembali ke warna asli
+        }, 1000);
+      }
+
+      // Event listener untuk semua tautan dengan hash
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          var target = this.getAttribute('href');
+          var targetElement = document.querySelector(target);
+          
+          if (targetElement) {
+            smoothScroll(target, 800);
+            setTimeout(() => highlightSection(targetElement), 800);
+          }
+        });
+      });
+
+      // Mendukung navigasi keyboard
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.tagName === 'A' && e.target.getAttribute('href').startsWith('#')) {
+          e.preventDefault();
+          var target = e.target.getAttribute('href');
+          var targetElement = document.querySelector(target);
+          
+          if (targetElement) {
+            smoothScroll(target, 800);
+            setTimeout(() => highlightSection(targetElement), 800);
+          }
+        }
+      });
+    });
+  </script>
+  
   
 
 </body>

@@ -15,7 +15,7 @@ class FrontendController extends Controller
   
     public function index()
     {
-        return view('Frontend.LayOut.Halaman.userprofile');
+        return view('dashboard.userprofile');
     }
 
     public function perusahaan()

@@ -12,12 +12,11 @@
                 <div class="col-md-6 ">
                   <div class="detail-box">
                     <h1>
-                      Getjob <br>
-                      In <br>
-                      FindJob
+                      Jelajahi <br>
+                      CareerSky
                     </h1>
                     <p>
-                      Apakah Anda sedang mencari pekerjaan impian? GetJob FindJob adalah platform terpercaya untuk menemukan peluang karir terbaik. Kami menyediakan berbagai lowongan pekerjaan dari perusahaan ternama, membantu Anda menemukan pekerjaan yang sesuai dengan keterampilan dan minat Anda. Mulai perjalanan karir Anda bersama kami hari ini!
+                    Menjadi platform utama yang menghubungkan para pencari kerja dengan peluang karier terbaik, memberikan akses ke pekerjaan yang sesuai dengan bakat dan minat mereka.
                     </p>
                     
                   </div>

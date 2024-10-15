@@ -135,15 +135,18 @@ Route::get('/home', function () {
 })->middleware(['auth', 'verified']);
 
 Route::get('/profile', function () {
-    return view('Frontend.LayOut.Halaman.userprofile');
+    return view('dashboard.userprofile');
 })->middleware(['auth', 'verified'])->name('profile');
 
 Route::middleware(['auth', 'check.userprofile'])->group(function () {
     // Semua route yang memerlukan profil lengkap
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [FrontendController        ::class, 'index'])->name('dashboard');
     // ... route lainnya ...
 });
 
+Route::get('/dashboard1', function() {
+    return view('Frontend.LayOut.dashboard');
+})->name('dashboard');
 // // Route untuk userprofile tidak perlu menggunakan middleware check.userprofile
 // Route::get('/userprofile', [UserProfileController::class, 'index'])->name('userprofile');
 // Route::post('/userprofile/update', [UserProfileController::class, 'update'])->name('user.updateProfile');
