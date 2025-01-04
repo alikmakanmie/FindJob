@@ -63,6 +63,7 @@ Route::controller(FrontendController::class)->group(function () {
     Route::post('/komentar', 'storeComment')->name('komentar.store');
     Route::delete('/komentar/{id}', 'deleteComment')->name('komentar.destroy');
     Route::get('/test',  'test')->name('test');
+    Route::get('/about', 'about')->name('about');
 });
 
 // Rute untuk notifikasi

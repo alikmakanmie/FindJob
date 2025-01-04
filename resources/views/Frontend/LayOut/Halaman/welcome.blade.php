@@ -80,11 +80,22 @@ html {
             <a class="nav-link dropdown-toggle" href="#" id="kategoriDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Kategori
             </a>
+            
             <div class="dropdown-menu" aria-labelledby="kategoriDropdown">
-              @foreach(\App\Models\categories::all() as $kategori)
-                <a class="dropdown-item" href="{{ route('perusahaankategori', $kategori->id) }}">{{ $kategori->name }}</a>
-              @endforeach
+              @php
+                $categories = \App\Models\categories::all();
+              @endphp
+              @if($categories->count() > 0)
+                @foreach($categories as $kategori)
+                  <a class="dropdown-item" href="{{ route('perusahaankategori', $kategori->id) }}">{{ $kategori->name }}</a>
+                @endforeach
+              @else
+                <span class="dropdown-item">Kategori belum ada</span>
+              @endif
             </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('about') }}">Tentang Kami</a>
           </li>
           @guest
             <li class="nav-item">

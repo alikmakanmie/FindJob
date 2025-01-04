@@ -76,4 +76,9 @@ class FrontendController extends Controller
     $kategori = categories::findOrFail($id);
     return view('perusahaan.by_category', compact('perusahaan', 'kategori'));
     }
+
+    public function about()
+    {
+        return view('Frontend.LayOut.Halaman.about');
+    }
 }
